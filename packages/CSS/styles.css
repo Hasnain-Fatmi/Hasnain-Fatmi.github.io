@@ -5,9 +5,9 @@
 :root {
   --header-height: 3rem;
 
-  /*========== Colors ==========*/
- /* Change favorite color */
---hue-color: 180; /* Blue-green hues for a warm day */
+/*========== Colors ==========*/
+/* Change favorite color */
+--hue-color: 210; /* Navy Blue hues */
 
 /* Color palette */
 --first-color: hsl(var(--hue-color), 60%, 50%); /* Main color */
@@ -22,6 +22,7 @@
 --container-color: hsl(var(--hue-color), 60%, 92%); /* Container color */
 --scroll-bar-color: hsl(var(--hue-color), 30%, 90%); /* Scroll bar color */
 --scroll-thumb-color: hsl(var(--hue-color), 30%, 80%); /* Scroll thumb color */
+
 
 
   
@@ -74,17 +75,16 @@
 
 /*========== Variables Dark theme ==========*/
 body.dark-theme {
-  --first-color-second: hsl(var(--hue-color), 30%, 8%);
-  --title-color: hsl(var(--hue-color), 8%, 95%);
-  --text-color: hsl(var(--hue-color), 8%, 45%);
-  --text-color-light: hsl(var(--hue-color), 8%, 75%);
-  --input-color: hsl(var(--hue-color), 29%, 16%);
-  --body-color: hsl(var(--hue-color), 28%, 12%);
-  --container-color: hsl(var(--hue-color), 29%, 16%);
-  --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
-  --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
+  --first-color-second: hsl(0, 0%, 10%); /* Very dark gray */
+  --title-color: hsl(0, 0%, 95%); /* Very light gray */
+  --text-color: hsl(0, 0%, 70%); /* Light gray */
+  --text-color-light: hsl(0, 0%, 90%); /* Very light gray */
+  --input-color: hsl(0, 0%, 20%); /* Dark gray */
+  --body-color: hsl(0, 0%, 12%); /* Very dark gray */
+  --container-color: hsl(0, 0%, 16%); /* Darker gray */
+  --scroll-bar-color: hsl(0, 0%, 28%); /* Gray */
+  --scroll-thumb-color: hsl(0, 0%, 36%); /* Darker gray */
 }
-
 
 /*========== Button Dark/Light ==========*/
 .nav__btns {
