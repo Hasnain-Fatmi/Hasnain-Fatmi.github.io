@@ -1,506 +1,399 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasnain Fatmi | Software Developer</title>
+    <meta name="description" content="Portfolio website of Hasnain Fatmi, Software Developer">
+    <link rel="stylesheet" href="./packages/CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <!-- Cursor Animation -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
 
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-        <link rel="stylesheet" href="packages/CSS/swiper-bundle.min.css">
-        <link rel="stylesheet" href="packages/CSS/styles.css">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-circle"></div>
+            <h2 class="loader-text">Hasnain Fatmi</h2>
+        </div>
+    </div>
 
-        <title>Hasnain Fatmi Portfolio</title>
-        
-    </head>
-    <body>
-        <!--==================== HEADER ====================-->
-        <header class="header" id="header">
-            <nav class="nav container">
-                <a href="#" class="nav__logo">Hasnain Fatmi</a>
-                <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list grid">
-                        <li class="nav__item">
-                            <a href="#home" class="nav__link">
-                                <i class="uil uil-estate nav__icon"></i>Home
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#about" class="nav__link">
-                                <i class="uil uil-user nav__icon"></i>About
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#skills" class="nav__link">
-                                <i class="uil uil-file-alt nav__icon"></i>Skills
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#portfolio" class="nav__link">
-                                <i class="uil uil-scenery nav__icon"></i>Portfolio                                
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#contact" class="nav__link">
-                                <i class="uil uil-message nav__icon"></i>Contact                               
-                            </a>
-                        </li>
-                    </ul>
-                    <i class="uil uil-times nav__close" id="nav-close"></i>
-                </div>
-                <div class="nav__btns">
-
-                    <!-- Theme change button -->
-
-                    <i class="uil uil-moon change-theme" id="theme-button"></i>
-
-                    <div class="nav__toggle" id="nav-toggle">
-                        <i class="uil uil-apps"></i>
-                    </div>
-                </div>
+    <!-- Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="animated-text">Hasnain Fatmi</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#portfolio" class="nav-link">Portfolio</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
+                </button>
             </nav>
-        </header>
 
-
-        <main class="main">
-            <section class="home section" id="home">
-                <div class="home__container container grid">
-                    <div class="home__content grid">
-                        <div class="home__social">
-                            <a href="https://www.linkedin.com/in/hasnain-fatmi/" target="_blank" class="home__social-icon">
-                                <i class="uil uil-linkedin-alt"></i>
-                            </a>
-                            <a href="https://github.com/Hasnain-Fatmi/" target="_blank" class="home__social-icon">
-                                <i class="uil uil-github-alt"></i>
-                            </a>
-                        </div>
-
-                        <div class="home__img">
-                            <svg class="home__blob" viewBox="0 0 200 187" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <mask id="mask0" mask-type="alpha">
-                                    <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 165.547 
-                                    130.807 187.559 100.226 186.353C69.6454 185.297 41.0228 161.023 21.7403 129.362C2.45775 
-                                    97.8511 -7.48481 59.1033 6.67581 34.5279C20.9871 10.1032 59.7028 -0.149132 97.9666 
-                                    0.00163737C136.23 0.303176 174.193 10.857 190.312 36.4879Z"/>
-                                </mask>
-                                <g mask="url(#mask0)">
-                                    <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 
-                                    165.547 130.807 187.559 100.226 186.353C69.6454 185.297 41.0228 161.023 21.7403 
-                                    129.362C2.45775 97.8511 -7.48481 59.1033 6.67581 34.5279C20.9871 10.1032 59.7028 
-                                    -0.149132 97.9666 0.00163737C136.23 0.303176 174.193 10.857 190.312 36.4879Z"/>
-                                    <image class="home__blob-img" x="" xlink:href="packages/images/PP.JPG"/>
-                                </g>
-                            </svg>
-                        </div>
-
-                        <div class="home__data">
-                            <h1 class="home__title">Hello 👋🏼, I'm <p style="font-size: 40px;">Hasnain Fatmi</p></h1>
-                            <h3 class="home__subtitle">Software Developer</h3>
-                            <p class="home__description">Passionate developer dedicated to innovation and lifelong learning, adept at picking up new languages and crafting efficient software solutions.</p>
-                            <a href="#contact" class="button button--flex home__button">
-                                Contact Me<i class="uil uil-message button__icon"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="home__scroll">
-                        <a href="#about" class="home__scroll-button button--flex">
-                            <i class="uil uil-mouse-alt home__scroll-mouse"></i>
-                            <span class="home__scroll-name">Scroll Down</span>
-                            <i class="uil uil-arrow-down home__scroll-arrow"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-
-            <section class="about section" id="about">
-                <h2 class="section__title">About Me</h2>
-                <span class="section__subtitle">My Introduction</span>
-
-                <div class="about__container container grid">
-                    <img src="packages/images/PP1.JPG" alt="" class="about__img">
-                    <div class="about__data">
-                        <p class="about__description">
-                            I'm a passionate developer 👨‍💻 who has a never-ending passion for picking up new coding languages and creating efficient software solutions. When I'm not immersed in code, you can find me actively participating in various projects 💻 and keeping up with the most recent advancements in the technology sector. My path in technology is driven by my unwavering love for innovation, commitment to lifelong learning. Software Developer Intern at Techlogix.
-                        </p>
-                        <div class="about__info">
-                            <div>
-                                <span class="about__info-title">2+ Months</span>
-                                <span class="about__info-name"><br>Internship</span>
-                            </div>
-                        </div>
-
-                        <div class="about__buttons">
-                            <a download="" href="./packages/Resume/Resume-Hasnain Fatmi.pdf" class="button button--flex">
-                                Download CV<i class="uil uil-download-alt button__icon"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!--==================== QUALIFICATION ====================-->
-        <section class="qualification__section">
-            <h2 class="section__title">Qualification</h2>
-            <span class="section__subtitle">My educational journey</span>
-
-            <div class="qualification__container container">
-                <div class="qualification__tabs">
-                    <div class="qualification__button button--flex qualification__active" data-target='#education'>
-                        <i class="uil uil-graduation-cap qualification__icon"></i>
-                        Education
-                    </div>
-                </div>
-
-        <div class="qualification__sections">
-            <div class="qualification__content qualification__active" data-content id="education">
-             <!--==================== QUALIFICATION 1 ====================--> 
-             <div class="qualification__data">
-                 <div>
-                     <h3 class="qualification__title">Matric</h3>
-                     <span class="qualification__subtitle">Govt. High School, Narowal</span>
-                     <div class="qualification__calendar">
-                        <i class="uil uil-calendar-alt"></i>
-                        2016 - 2018
-                     </div>
-                 </div>
-
-                 <div>
-                     <span class="qualification__rounder"></span>
-                     <span class="qualification__line"></span>
-                 </div>
-             </div>
-             
-             <!--==================== QUALIFICATION 2 ====================--> 
-             <div class="qualification__data">
-                <div></div>
-                <div>
-                   <span class="qualification__rounder"></span>
-                   <span class="qualification__line"></span>
-                </div>
-
-                <div>
-                    <h3 class="qualification__title">FSC</h3>
-                    <span class="qualification__subtitle">RCS, Narowal</span>
-                    <div class="qualification__calendar">
-                       <i class="uil uil-calendar-alt"></i>
-                       2018 - 2020
-                    </div>
-                </div>
-            </div> 
-
-            <!--==================== QUALIFICATION 3 ====================--> 
-            <div class="qualification__data">
-                <div>
-                    <h3 class="qualification__title">BSCS Bachelors Degree in Computer Science</h3>
-                    <span class="qualification__subtitle">FAST NUCES</span>
-                    <div class="qualification__calendar">
-                       <i class="uil uil-calendar-alt"></i>
-                       2021 - 2025
-                    </div>
-                </div>
-
-                <div>
-                    <span class="qualification__rounder"></span>
-                    <span class="qualification__line"></span>
-                </div>
-            </div> 
-
-                
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav">
+                <button class="theme-toggle mobile-theme" id="mobileThemeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
-            </div>
-            
-        </section>
-
-            <!--==================== SKILLS ====================-->
-            <section class="skills section" id="skills">
-                <h2 class="section__title">Skills</h2>
-                <span class="section__subtitle">My technical level</span>
-
-                <div class="skills__container container grid">
-                    <div>
-                         <!--==================== 1 ====================-->
-                        <div class="skills__content skills__open">
-                            <div class="skills__header">
-                                <i class="uil uil-analytics skills__icon"></i>
-                               <div>
-                                   <h1 class="skills__title">Programming languages</h1>
-                               </div>
-
-                               <i class="uil uil-angle-down skills__arrow"></i>
-                            </div>
-                            <div class="skills__list grid">
-                                <div class="skills__data">
-                                    <div class="skills__titles">
-                                        <h3 class="skills__name">Python</h3>
-                                        <span class="skills__number">Intermediate</span>
-                                    </div>
-                                </div>
-                               <div class="skills__data">
-                                   <div class="skills__titles">
-                                       <h3 class="skills__name">C++</h3>
-                                       <span class="skills__number">Experienced</span>
-                                   </div>
-                               </div>
-                               <div class="skills__data">
-                                   <div class="skills__titles">
-                                       <h3 class="skills__name">C</h3>
-                                       <span class="skills__number">Experienced</span>
-                                   </div>
-                               </div>
-                               <div class="skills__data">
-                                    <div class="skills__titles">
-                                        <h3 class="skills__name">JavaScript</h3>
-                                        <span class="skills__number">Intermediate</span>
-                                    </div>
-                                </div>
-                                <div class="skills__data">
-                                    <div class="skills__titles">
-                                        <h3 class="skills__name">SQL</h3>
-                                        <span class="skills__number">Intermediate</span>
-                                    </div>
-                                </div>
-                                <div class="skills__data">
-                                    <div class="skills__titles">
-                                        <h3 class="skills__name">Assembly x86</h3>
-                                        <span class="skills__number">Intermediate</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                         <!--==================== 2 ====================-->
-                        <div class="skills__content skills__close">
-                            <div class="skills__header">
-                                <i class="uil uil-analytics skills__icon"></i>
-                               <div>
-                                   <h1 class="skills__title">Others</h1>
-                               </div>
-
-                               <i class="uil uil-angle-down skills__arrow"></i>
-                            </div>
-                            <div class="skills__list grid">
-                                <div class="skills__data">
-                                    <div class="skills__titles">
-                                        <h3 class="skills__name">Django</h3>
-                                        <span class="skills__number">Intermediate</span>
-                                    </div>
-                               </div>
-                               <div class="skills__data">
-                                   <div class="skills__titles">
-                                       <h3 class="skills__name">GIT</h3>
-                                       <span class="skills__number">Intermediate</span>
-                                   </div>
-                               </div>
-                               <div class="skills__data">
-                                    <div class="skills__titles">
-                                      <h3 class="skills__name">HTML</h3>
-                                      <span class="skills__number">Intermediate</span>
-                                    </div>
-                                </div>
-                                <div class="skills__data">
-                                   <div class="skills__titles">
-                                       <h3 class="skills__name">CSS</h3>
-                                       <span class="skills__number">Intermediate</span>
-                                   </div>
-                                </div>
-                                <div class="skills__data">
-                                    <div class="skills__titles">
-                                        <h3 class="skills__name">Linux</h3>
-                                        <span class="skills__number">Intermediate</span>
-                                    </div>
-                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>   
-      
-        <!--==================== PORTFOLIO ====================-->
-        <section class="portfolio section" id="portfolio">
-
-            <h2 class="section__title">Portfolio</h2>
-            <span class="section__subtitle">My Projects</span>
-
-            <div class="portfolio__container container swiper-container">
-                <div class="swiper-wrapper">
-        
-            <div class="portfolio__content grid swiper-slide">
-                <img src="./voter dashboard.jpg" alt="" class="portfolio__img">
-
-                <div class="portfolio_">
-                    <h3 class="portfolio__title">OVS</h3>
-                    <p class="portfolio__description">•	I created this Online Voting platform. Key functions, such as voter registration, Candidate verification, vote casting, election result display and result pdf downloads have been successfully integrated using DBMS, POSTGREE SQL, DJANGO, HTML, CSS, and other technologies.</p>
-                    <a href="https://github.com/Hasnain-Fatmi/Online-Voting-System" class="button button--flex button--small portfolio__button">
-                        Github
-                        <i class="uil uil-arrow-right button__icon"></i>
-                    </a>
-                </div>
-            </div>
-        
-            <div class="portfolio__content grid swiper-slide">
-                <img src="./PVC.png" alt="" class="portfolio__img">
-
-                <div class="portfolio_">
-                    <h3 class="portfolio__title">Pingpong-Plus</h3>
-                    <p class="portfolio__description">This is my OOP (Object oriented Progamming) project that is implemented using c++ concepts of OOP and raylib library. Although it seems simple I added a bunch of cool features such as cool sounds for each window as well as in-game high-score and score counter and feature of gradual difficulty. Also added player vs computer and more.</p>
-                    <a href="https://github.com/Hasnain-Fatmi/Racket-Rally" class="button button--flex button--small portfolio__button">
-                        Github
-                        <i class="uil uil-arrow-right button__icon"></i>
-                    </a>
-                </div>
-            </div>
-        
-            <div class="portfolio__content grid swiper-slide">
-                <img src="./Game.png" alt="" class="portfolio__img">
-
-                <div class="portfolio_">
-                    <h3 class="portfolio__title">Fish Carnival</h3>
-                    <p class="portfolio__description">I implemented a multi-tasking game project in assembly language (8088 architecture), focusing on visual elements, interactivity, and meeting all requirements outlined in the design document for a university COAL class.</p>
-                    <a href="https://github.com/Hasnain-Fatmi/Fish-Carnival" class="button button--flex button--small portfolio__button">
-                        Github
-                        <i class="uil uil-arrow-right button__icon"></i>
-                    </a>
-                </div>
-            </div>
-                </div>
-
-            <!-- add arrows-->
-            <div class="swiper-button-next">
-                <i class="uil uil-angle-right-b swiper-portfolio-icon"></i>
-            </div>
-
-            <div class="swiper-button-prev">
-                <i class="uil uil-angle-left-b swiper-portfolio-icon"></i>
-            </div>
-
-            <!-- Add Pagination -->
-            <div class="swiper-pagination"></div>
-            
-        
         </div>
 
-        </section>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#home" class="mobile-link">Home</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#skills" class="mobile-link">Skills</a>
+            <a href="#portfolio" class="mobile-link">Portfolio</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+        </div>
+    </header>
 
-        <!--==================== CONTACT ME ====================-->
-        <section class="contact section" id="contact">
-            <h2 class="section__title">Contact me</h2>
-            <span class="section__subtitle">Get in touch</span>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
 
-            <div class="contact__container container grid">
-                <div>
-                    <div class="contact__information">
-                        <i class="uil uil-phone-alt contact__icon"></i>
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <!-- Social Media Icons -->
+                    <div class="social-column">
+                        <a href="https://linkedin.com/in/hasnain-fatmi" target="_blank" rel="noopener noreferrer" class="social-link hover-float">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/Hasnain-Fatmi" target="_blank" rel="noopener noreferrer" class="social-link hover-float">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
 
-                        <div>
-                            <h3 class="contact__title">Call me</h3>
-                            <span class="contatc__subtitle">(+92) 3077178904</span>
+                    <!-- Profile Image -->
+                    <div class="profile-column">
+                        <div class="profile-wrapper">
+                            <div class="profile-bg"></div>
+                            <div class="profile-image">
+                                <img src="./packages/images/Muhammad Hasnain Fatmi.png" alt="Hasnain Fatmi" />
+                            </div>
+                            <div class="profile-orbit">
+                                <div class="orbit-circle"></div>
+                                <div class="orbit-dot dot1"></div>
+                                <div class="orbit-dot dot2"></div>
+                                <div class="orbit-dot dot3"></div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="contact__information">
-                        <i class="uil uil-envelope contact__icon"></i>
-
-                        <div>
-                            <h3 class="contact__title">E-mail</h3>
-                            <span class="contatc__subtitle">hasnainfatmi22@gmail.com</span>
-                        </div>
-                    </div>
-
-                    <div class="contact__information">
-                        <i class="uil uil-linkedin-alt" style="color: #ADD8E6;">&nbsp&nbsp&nbsp</i>
-
-                        <div>
-                            <h3 class="contact__title">linkedin</h3>
-                            <span class="contatc__subtitle">hasnain-fatmi</span>
-                        </div>
-                    </div>
-
-                    <div class="contact__information">
-                        <i class="uil uil-map-marker contact__icon"></i>
-
-                        <div>
-                            <h3 class="contact__title">Location</h3>
-                            <span class="contatc__subtitle">Lahore, Pakistan</span>
+                    <!-- Introduction -->
+                    <div class="intro-column">
+                        <h1 class="hero-title">
+                            <span class="text-reveal">Hello 👋🏼, I'm</span>
+                            <span class="text-reveal delay-1">Hasnain Fatmi</span>
+                        </h1>
+                        <h2 class="hero-subtitle text-reveal delay-2">Software Developer</h2>
+                        <p class="hero-description text-reveal delay-3">
+                            Passionate developer dedicated to innovation and lifelong learning, adept at picking up new languages and crafting efficient software solutions.
+                        </p>
+                        <div class="hero-actions text-reveal delay-4">
+                            <button class="btn btn-primary btn-animated" onclick="scrollToSection('#contact')">Contact Me</button>
+                            <div class="mobile-social">
+                                <a href="https://linkedin.com/in/hasnain-fatmi" target="_blank" rel="noopener noreferrer" class="btn btn-outline hover-float">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="https://github.com/Hasnain-Fatmi" target="_blank" rel="noopener noreferrer" class="btn btn-outline hover-float">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <form id="contactForm" class="contact__form grid">
-                    <div class="contact__inputs grid">
-                        <div class="contact__content">
-                            <label for="nameInput" class="contact__label">Name</label>
-                            <input type="text" id="nameInput" class="contact__input">
-                        </div>
-                        <div class="contact__content">
-                            <label for="emailInput" class="contact__label">E-mail</label>
-                            <input type="email" id="emailInput" class="contact__input">
-                        </div>
-                    </div>
-                    <div class="contact__content">
-                        <label for="subjectInput" class="contact__label">Subject</label>
-                        <input type="text" id="subjectInput" class="contact__input">
-                    </div>
-                    <div class="contact__content">
-                        <label for="descriptionInput" class="contact__label">Description</label>
-                        <textarea id="descriptionInput" cols="0" rows="7" class="contact__input"></textarea>
-                    </div>
-                    <div>
-                        <a href="#" class="button button--flex" onclick="sendMessage()">Send message
-                            <i class="uil uil-message button__icon"></i>
-                        </a>
-                    </div>
-                </form>
-
+                <!-- Scroll Down Button -->
+                <div class="scroll-down">
+                    <button class="scroll-btn" onclick="scrollToSection('#about')" aria-label="Scroll Down">
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                </div>
             </div>
+        </section>
 
+        <!-- About Section -->
+        <section id="about" class="about scroll-reveal">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title text-reveal">About Me</h2>
+                    <p class="section-subtitle text-reveal delay-1">My Introduction</p>
+                </div>
+
+                <div class="about-grid">
+                    <!-- Profile Image -->
+                    <div class="about-image fade-in" style="display: flex; align-items: center; justify-content: center;">
+                        <div class="image-wrapper" style="width: 100%; height: auto; max-width: 350px;">
+                            <img src="./packages/images/Hasnain_Picture.jpg" alt="Hasnain Fatmi" style="width: 100%; height: auto; display: block; object-fit: contain;" />
+                            <div class="image-decoration"></div>
+                        </div>
+                    </div>
+
+                    <!-- About Content -->
+                    <div class="about-content">
+                        <p class="about-text slide-up">
+                            I'm a passionate developer 👨‍💻 with a never-ending curiosity for learning new languages and building software. I interned at Techlogix and enjoy contributing to real-world projects. I'm driven by innovation and lifelong learning.
+                        </p>
+                        <a href="./packages/Resume/Resume - Muhammad Hasnain Fatmi.pdf" download class="btn btn-primary btn-animated download-btn slide-up delay-1">
+                            <i class="fas fa-download"></i> Download Resume
+                        </a>
+
+                        <h3 class="education-title slide-up delay-2">Education</h3>
+                        <div class="education-timeline">
+                            <div class="education-item slide-up delay-3">
+                                <h4>BSCS — FAST NUCES</h4>
+                                <span class="education-year">2021—2025</span>
+                            </div>
+                            <div class="education-item slide-up delay-4">
+                                <h4>FSC — RCS, Narowal</h4>
+                                <span class="education-year">2018—2020</span>
+                            </div>
+                            <div class="education-item slide-up delay-5">
+                                <h4>Matric — Govt. High School, Narowal</h4>
+                                <span class="education-year">2016—2018</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="skills scroll-reveal">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title text-reveal">Skills</h2>
+                    <p class="section-subtitle text-reveal delay-1">My Technical Level</p>
+                </div>
+
+                <div class="skills-container">
+                    <div class="loading-skeleton" id="skillsLoading">
+                        <div class="skeleton-item"></div>
+                        <div class="skeleton-content"></div>
+                        <div class="skeleton-item"></div>
+                        <div class="skeleton-content"></div>
+                    </div>
+
+                    <div class="accordion" id="skillsAccordion" style="display: none;">
+                        <div class="accordion-item fade-in">
+                            <button class="accordion-header active" data-target="programming">
+                                <span>Programming Languages</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content active" id="programming">
+                                <div class="skills-grid" id="programmingSkills"></div>
+                            </div>
+                        </div>
+                        <div class="accordion-item fade-in delay-1">
+                            <button class="accordion-header" data-target="frameworks">
+                                <span>Frameworks & Libraries</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content" id="frameworks">
+                                <div class="skills-grid" id="frameworksSkills"></div>
+                            </div>
+                        </div>
+                        <div class="accordion-item fade-in delay-2">
+                            <button class="accordion-header" data-target="databases">
+                                <span>Databases</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content" id="databases">
+                                <div class="skills-grid" id="databasesSkills"></div>
+                            </div>
+                        </div>
+                        <div class="accordion-item fade-in delay-3">
+                            <button class="accordion-header" data-target="tools">
+                                <span>Tools & Technologies</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content" id="tools">
+                                <div class="skills-grid" id="toolsSkills"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="portfolio scroll-reveal">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title text-reveal">Portfolio</h2>
+                    <p class="section-subtitle text-reveal delay-1">My Projects</p>
+                </div>
+
+                <div class="portfolio-container">
+                    <div class="loading-skeleton" id="portfolioLoading">
+                        <div class="skeleton-card"></div>
+                    </div>
+
+                    <div class="carousel" id="portfolioCarousel" style="display: none;">
+                        <div class="carousel-container">
+                            <div class="carousel-track" id="carouselTrack"></div>
+                        </div>
+                        <button class="carousel-btn prev" id="prevBtn" aria-label="Previous project">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="carousel-btn next" id="nextBtn" aria-label="Next project">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div class="carousel-dots" id="carouselDots"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact scroll-reveal">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title text-reveal">Contact Me</h2>
+                    <p class="section-subtitle text-reveal delay-1">Get in Touch</p>
+                </div>
+
+                <div class="contact-grid">
+                    <!-- Contact Information -->
+                    <div class="contact-info">
+                        <div class="contact-item fade-in">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Phone</h3>
+                                <p>(+92) 3077178904</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item fade-in delay-1">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Email</h3>
+                                <p>hasnainfatmi22@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item fade-in delay-2">
+                            <div class="contact-icon">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>LinkedIn</h3>
+                                <a href="https://linkedin.com/in/hasnain-fatmi" target="_blank" rel="noopener noreferrer">
+                                    linkedin.com/in/hasnain-fatmi
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item fade-in delay-3">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Location</h3>
+                                <p>Lahore, Pakistan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <form class="contact-form slide-up" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required class="input-animated">
+                            <span class="input-focus-effect"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required class="input-animated">
+                            <span class="input-focus-effect"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" placeholder="Subject" required class="input-animated">
+                            <span class="input-focus-effect"></span>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Your Message" rows="5" required class="input-animated"></textarea>
+                            <span class="input-focus-effect"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-animated btn-full">
+                            <span class="btn-text"><i class="fas fa-paper-plane"></i> Send Message</span>
+                            <span class="btn-loading"><i class="fas fa-spinner fa-spin"></i> Sending...</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </section>
     </main>
 
-    <!--==================== FOOTER ====================-->
+    <!-- Footer -->
     <footer class="footer">
-
-        <div class="footer__bg">
-            <div class="footer__container container grid">
-                <div>
-                    <h1 class="footer__title">Hasnain Fatmi</h1>
-                    <span class="footer__subtitle">Software Developer</span>
+        <div class="footer-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="var(--bg-secondary)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Hasnain Fatmi</h3>
+                    <p>Software Developer</p>
                 </div>
 
-                <ul class="footer__links">
-                    <li>
-                        <a href="#about" class="footer__link">About</a>
-                    </li>
-                    <li>
-                        <a href="#portfolio" class="footer__link">Portfolio</a>
-                    </li>
-                    <li>
-                        <a href="#contact" class="footer__link">Contact</a>
-                    </li>
-                </ul>
+                <div class="footer-links">
+                    <a href="#about" class="footer-link hover-underline">About</a>
+                    <a href="#portfolio" class="footer-link hover-underline">Portfolio</a>
+                    <a href="#contact" class="footer-link hover-underline">Contact</a>
+                </div>
 
-                <div class="footer__socials">
-                    <a href="https://www.linkedin.com/in/hasnain-fatmi/" target="_blank" class="footer__social">
-                        <i class="uil uil-linkedin-alt"></i>
+                <div class="footer-social">
+                    <a href="https://linkedin.com/in/hasnain-fatmi" target="_blank" rel="noopener noreferrer" class="social-link hover-float">
+                        <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://github.com/Hasnain-Fatmi/" target="_blank" class="footer__social">
-                        <i class="uil uil-github-alt"></i>
+                    <a href="https://github.com/Hasnain-Fatmi" target="_blank" rel="noopener noreferrer" class="social-link hover-float">
+                        <i class="fab fa-github"></i>
                     </a>
                 </div>
             </div>
-            <p class="footer__copy">&#169; hasnain-fatmi. All rights reserved.</p>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> Hasnain Fatmi. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-    
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-
-    <a href="#" class="scrollup" id="scroll-up">
-        <i class="uil uil-arrow-up scrollup__icon"></i>
-    </a>
-    
-
-    <script src="packages/js/swiper-bundle.min.js"></script>
-    <script src="packages/js/main.js"></script>
-
+    <script src="script.js"></script>
 </body>
-
 </html>
