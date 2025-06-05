@@ -372,13 +372,36 @@ class PortfolioManager {
 class ContactManager {
   constructor() {
     this.form = document.getElementById("contactForm")
-    this.serviceId = CONFIG.emailjs.serviceId
-    this.templateId = CONFIG.emailjs.templateId
-    this.publicKey = CONFIG.emailjs.publicKey
+    
+    // Check if form exists
+    if (!this.form) {
+      console.warn('Contact form not found')
+      return
+    }
+    
+    // Use placeholders that will be replaced by GitHub Actions
+    this.serviceId = "EMAILJS_SERVICE_ID_PLACEHOLDER"
+    this.templateId = "EMAILJS_TEMPLATE_ID_PLACEHOLDER"
+    this.publicKey = "EMAILJS_PUBLIC_KEY_PLACEHOLDER"
+    
+    // Check if placeholders were replaced (meaning we're in production)
+    if (this.serviceId.includes('PLACEHOLDER')) {
+      console.warn('EmailJS not configured - running in development mode')
+      this.showConfigWarning()
+      return
+    }
+    
     this.init()
   }
 
   init() {
+    // Check if emailjs is loaded
+    if (typeof emailjs === 'undefined') {
+      console.error('EmailJS not loaded')
+      this.showConfigError()
+      return
+    }
+    
     // Initialize EmailJS
     emailjs.init(this.publicKey)
     this.bindEvents()
@@ -386,6 +409,30 @@ class ContactManager {
 
   bindEvents() {
     this.form.addEventListener("submit", (e) => this.handleSubmit(e))
+  }
+
+  showConfigWarning() {
+    // Show development mode message
+    const submitBtn = this.form.querySelector('button[type="submit"]')
+    if (submitBtn) {
+      submitBtn.disabled = true
+      submitBtn.innerHTML = '<i class="fas fa-wrench"></i> Development Mode'
+    }
+  }
+
+  showConfigError() {
+    // Disable the form and show error
+    const submitBtn = this.form.querySelector('button[type="submit"]')
+    if (submitBtn) {
+      submitBtn.disabled = true
+      submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Service Unavailable'
+    }
+    
+    this.showMessage(
+      '<i class="fas fa-exclamation-triangle"></i> Contact form is temporarily unavailable. Please use the contact information above.',
+      '#f59e0b',
+      'white'
+    )
   }
 
   async handleSubmit(e) {
