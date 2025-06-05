@@ -242,7 +242,7 @@ class PortfolioManager {
         title: "JANWAR",
         description: "ATLAS MONGODB, EXPRESS, REACT, NODEJS. E-commerce platform for pet adoption and sales. Features: Post ads, buy/sell pets, purchase accessories, custom transactions.",
         image: "https://via.placeholder.com/500x300/EF4444/FFFFFF?text=JANWAR",
-        link: "https://github.com/Hasnain-Fatmi/JANWAR",
+        link: "https://github.com/Hasnain-Fatmi/janwar.com",
         date: "May 2024"
       },
       {
