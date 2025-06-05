@@ -373,35 +373,15 @@ class ContactManager {
   constructor() {
     this.form = document.getElementById("contactForm")
     
-    // Check if form exists
-    if (!this.form) {
-      console.warn('Contact form not found')
-      return
-    }
-    
     // Use placeholders that will be replaced by GitHub Actions
     this.serviceId = "EMAILJS_SERVICE_ID_PLACEHOLDER"
     this.templateId = "EMAILJS_TEMPLATE_ID_PLACEHOLDER"
     this.publicKey = "EMAILJS_PUBLIC_KEY_PLACEHOLDER"
     
-    // Check if placeholders were replaced (meaning we're in production)
-    if (this.serviceId.includes('PLACEHOLDER')) {
-      console.warn('EmailJS not configured - running in development mode')
-      this.showConfigWarning()
-      return
-    }
-    
     this.init()
   }
 
   init() {
-    // Check if emailjs is loaded
-    if (typeof emailjs === 'undefined') {
-      console.error('EmailJS not loaded')
-      this.showConfigError()
-      return
-    }
-    
     // Initialize EmailJS
     emailjs.init(this.publicKey)
     this.bindEvents()
@@ -409,30 +389,6 @@ class ContactManager {
 
   bindEvents() {
     this.form.addEventListener("submit", (e) => this.handleSubmit(e))
-  }
-
-  showConfigWarning() {
-    // Show development mode message
-    const submitBtn = this.form.querySelector('button[type="submit"]')
-    if (submitBtn) {
-      submitBtn.disabled = true
-      submitBtn.innerHTML = '<i class="fas fa-wrench"></i> Development Mode'
-    }
-  }
-
-  showConfigError() {
-    // Disable the form and show error
-    const submitBtn = this.form.querySelector('button[type="submit"]')
-    if (submitBtn) {
-      submitBtn.disabled = true
-      submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Service Unavailable'
-    }
-    
-    this.showMessage(
-      '<i class="fas fa-exclamation-triangle"></i> Contact form is temporarily unavailable. Please use the contact information above.',
-      '#f59e0b',
-      'white'
-    )
   }
 
   async handleSubmit(e) {
@@ -444,57 +400,49 @@ class ContactManager {
     submitBtn.classList.add("loading")
     submitBtn.disabled = true
 
-    try {
-      // Get form data
-      const formData = new FormData(this.form)
-      // Get current timestamp
-      const now = new Date()
-      const timeString = now.toLocaleString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        timeZoneName: 'short'
-      })
-      // Prepare template parameters
-      const templateParams = {
-        from_name: formData.get('name'),
-        from_email: formData.get('email'),
-        subject: formData.get('subject'),
-        message: formData.get('message'),
-        to_name: 'Hasnain Fatmi',
-        reply_to: formData.get('email'),
-        time: timeString // Add timestamp parameter
-      }
-
-      // Send email using EmailJS
-      const result = await emailjs.send(
-        this.serviceId,
-        this.templateId,
-        templateParams
-      )
-
-      console.log('Email sent successfully:', result)
-      
-      // Show success message
-      this.showSuccessMessage()
-      
-      // Reset form
-      this.form.reset()
-
-    } catch (error) {
-      console.error('Email send failed:', error)
-      
-      // Show error message
-      this.showErrorMessage()
-    } finally {
-      // Reset button state
-      submitBtn.classList.remove("loading")
-      submitBtn.disabled = false
+    // Get form data
+    const formData = new FormData(this.form)
+    // Get current timestamp
+    const now = new Date()
+    const timeString = now.toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short'
+    })
+    // Prepare template parameters
+    const templateParams = {
+      from_name: formData.get('name'),
+      from_email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+      to_name: 'Hasnain Fatmi',
+      reply_to: formData.get('email'),
+      time: timeString // Add timestamp parameter
     }
+
+    // Send email using EmailJS
+    const result = await emailjs.send(
+      this.serviceId,
+      this.templateId,
+      templateParams
+    )
+
+    console.log('Email sent successfully:', result)
+    
+    // Show success message
+    this.showSuccessMessage()
+    
+    // Reset form
+    this.form.reset()
+
+    // Reset button state
+    submitBtn.classList.remove("loading")
+    submitBtn.disabled = false
   }
 
   showSuccessMessage() {
