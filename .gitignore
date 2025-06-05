@@ -1,0 +1,17 @@
+# Configuration files with sensitive data
+config.js
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Logs
+*.log

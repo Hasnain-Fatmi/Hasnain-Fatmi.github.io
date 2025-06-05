@@ -372,9 +372,9 @@ class PortfolioManager {
 class ContactManager {
   constructor() {
     this.form = document.getElementById("contactForm")
-    this.serviceId = "service_7hulbtq"
-    this.templateId = "template_eb997fq" // You'll need to create a template in EmailJS
-    this.publicKey = "6-cLwi-Qj1WTboC_n" // Get this from EmailJS dashboard
+    this.serviceId = CONFIG.emailjs.serviceId
+    this.templateId = CONFIG.emailjs.templateId
+    this.publicKey = CONFIG.emailjs.publicKey
     this.init()
   }
 
