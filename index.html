@@ -390,6 +390,39 @@
         </div>
     </footer>
 
+    <!-- Demo Modal -->
+    <div class="modal" id="demoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">SkillSync Demo</h3>
+                <button class="modal-close" id="modalClose" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video 
+                    class="demo-video" 
+                    controls
+                    preload="metadata"
+                    poster="./packages/images/skillsync-thumbnail.png">
+                    <source src="./packages/Video_demo/FYP-Demo-Final.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="demo-description">
+                    Watch the demo of SkillSync - A smart career guidance platform with personalized job recommendations and career planning features.
+                </p>
+                <div class="demo-actions">
+                    <button class="btn btn-primary btn-animated" onclick="scrollToSection('#contact'); window.portfolioManager.closeDemoModal();">
+                        <i class="fas fa-envelope"></i> Contact Me
+                    </button>
+                    <button class="btn btn-outline" id="closeDemo">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scroll to Top Button -->
     <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
         <i class="fas fa-arrow-up"></i>

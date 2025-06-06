@@ -259,6 +259,45 @@ class PortfolioManager {
 
   init() {
     this.loadProjects()
+    this.initDemoModal()
+  }
+
+  initDemoModal() {
+    const modal = document.getElementById('demoModal')
+    const modalClose = document.getElementById('modalClose')
+    const closeDemo = document.getElementById('closeDemo')
+
+    // Close modal when clicking the X button
+    modalClose.addEventListener('click', () => this.closeDemoModal())
+    
+    // Close modal when clicking the close button
+    closeDemo.addEventListener('click', () => this.closeDemoModal())
+    
+    // Close modal when clicking outside the modal content
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        this.closeDemoModal()
+      }
+    })
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        this.closeDemoModal()
+      }
+    })
+  }
+
+  showDemoModal() {
+    const modal = document.getElementById('demoModal')
+    modal.classList.add('active')
+    document.body.style.overflow = 'hidden' // Prevent background scrolling
+  }
+
+  closeDemoModal() {
+    const modal = document.getElementById('demoModal')
+    modal.classList.remove('active')
+    document.body.style.overflow = '' // Restore scrolling
   }
 
   async loadProjects() {
@@ -276,43 +315,43 @@ class PortfolioManager {
   }
 
   renderProjects() {
-    const track = document.getElementById("carouselTrack")
-    const dots = document.getElementById("carouselDots")
-
-    //<img src="${project.image}" alt="${project.title}" class="project-image">
-    // Render slides
-    track.innerHTML = this.projects
-      .map(
-        (project, index) => `
-            <div class="carousel-slide ${index === 0 ? "active" : ""}">
-                <div class="project-content">
-                    <div class="project-header">
-                        <h3 class="project-title">${project.title}</h3>
-                        <span class="project-date">${project.date}</span>
-                    </div>
-                    <p class="project-description">${project.description}</p>
-                    ${project.isDemo 
-                        ? `<button class="btn btn-primary btn-animated" onclick="scrollToSection('#contact')">
-                            <i class="fas fa-play"></i> Request Demo
-                           </button>`
-                        : `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-animated">
-                            <i class="fab fa-github"></i> View on GitHub
-                           </a>`
-                    }
-                </div>
-            </div>
-        `,
-      )
-      .join("")
-
-    // Render dots
-    dots.innerHTML = this.projects
-      .map(
-        (_, index) => `
-            <div class="carousel-dot ${index === 0 ? "active" : ""}" data-slide="${index}"></div>
-        `,
-      )
-      .join("")
+      const track = document.getElementById("carouselTrack")
+      const dots = document.getElementById("carouselDots")
+  
+      //<img src="${project.image}" alt="${project.title}" class="project-image">
+      // Render slides
+      track.innerHTML = this.projects
+        .map(
+          (project, index) => `
+              <div class="carousel-slide ${index === 0 ? "active" : ""}">
+                  <div class="project-content">
+                      <div class="project-header">
+                          <h3 class="project-title">${project.title}</h3>
+                          <span class="project-date">${project.date}</span>
+                      </div>
+                      <p class="project-description">${project.description}</p>
+                      ${project.isDemo 
+                          ? `<button class="btn btn-primary btn-animated" onclick="window.portfolioManager.showDemoModal()">
+                              <i class="fas fa-play"></i> Watch Demo
+                             </button>`
+                          : `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-animated">
+                              <i class="fab fa-github"></i> View on GitHub
+                             </a>`
+                      }
+                  </div>
+              </div>
+          `,
+        )
+        .join("")
+  
+      // Render dots
+      dots.innerHTML = this.projects
+        .map(
+          (_, index) => `
+              <div class="carousel-dot ${index === 0 ? "active" : ""}" data-slide="${index}"></div>
+          `,
+        )
+        .join("")
   }
 
   bindCarouselEvents() {
@@ -696,7 +735,10 @@ document.addEventListener("DOMContentLoaded", () => {
   new ThemeManager()
   new NavigationManager()
   new SkillsManager()
-  new PortfolioManager()
+  //new PortfolioManager()
+
+  window.portfolioManager = new PortfolioManager()
+
   new ContactManager()
   new ScrollToTopManager()
   new ScrollRevealManager()
