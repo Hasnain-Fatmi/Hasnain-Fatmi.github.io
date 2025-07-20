@@ -412,7 +412,7 @@ class ContactManager {
   constructor() {
     this.form = document.getElementById("contactForm")
     
-    // Use placeholders that will be replaced by GitHub Actions
+    // EmailJS credentials
     this.serviceId = "EMAILJS_SERVICE_ID_PLACEHOLDER"
     this.templateId = "EMAILJS_TEMPLATE_ID_PLACEHOLDER"
     this.publicKey = "EMAILJS_PUBLIC_KEY_PLACEHOLDER"
