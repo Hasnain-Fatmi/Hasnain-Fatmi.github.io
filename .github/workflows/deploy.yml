@@ -31,7 +31,7 @@ jobs:
       - name: Show script.js after sed
         run: |
           echo "First 20 lines of script.js after sed replacement:"
-          head -20 script.js
+          head -420 script.js
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
