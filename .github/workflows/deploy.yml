@@ -22,20 +22,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # - name: Replace EmailJS configuration
-      #   env:
-      #     EMAILJS_SERVICE_ID: service_7hulbtq
-      #     EMAILJS_TEMPLATE_ID: template_eb997fq
-      #     EMAILJS_PUBLIC_KEY: 6-cLwi-Qj1WTboC_n
-      #   run: |
-      #     perl -pi -e "s/EMAILJS_SERVICE_ID_PLACEHOLDER/$ENV{EMAILJS_SERVICE_ID}/g" script.js
-      #     perl -pi -e "s/EMAILJS_TEMPLATE_ID_PLACEHOLDER/$ENV{EMAILJS_TEMPLATE_ID}/g" script.js
-      #     perl -pi -e "s/EMAILJS_PUBLIC_KEY_PLACEHOLDER/$ENV{EMAILJS_PUBLIC_KEY}/g" script.js
+      - name: Replace EmailJS configuration
+        env:
+          EMAILJS_SERVICE_ID: service_7hulbtq
+          EMAILJS_TEMPLATE_ID: template_eb997fq
+          EMAILJS_PUBLIC_KEY: 6-cLwi-Qj1WTboC_n
+        run: |
+          perl -pi -e "s/EMAILJS_SERVICE_ID_PLACEHOLDER/$ENV{EMAILJS_SERVICE_ID}/g" script.js
+          perl -pi -e "s/EMAILJS_TEMPLATE_ID_PLACEHOLDER/$ENV{EMAILJS_TEMPLATE_ID}/g" script.js
+          perl -pi -e "s/EMAILJS_PUBLIC_KEY_PLACEHOLDER/$ENV{EMAILJS_PUBLIC_KEY}/g" script.js
 
-      # - name: Show script.js after sed
-      #   run: |
-      #     echo "First 422 lines of script.js after sed replacement:"
-      #     head -422 script.js
+      - name: Show script.js after sed
+        run: |
+          echo "First 422 lines of script.js after sed replacement:"
+          head -422 script.js
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
