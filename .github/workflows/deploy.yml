@@ -42,6 +42,14 @@ jobs:
           echo "All placeholders successfully replaced"
         fi
     
+    - name: Debug: Show EmailJS credentials in script.js
+      run: |
+        echo "Checking script.js for EmailJS credentials:"
+        grep 'EMAILJS_' script.js || true
+        grep 'serviceId' script.js || true
+        grep 'templateId' script.js || true
+        grep 'publicKey' script.js || true
+
     - name: Setup Pages
       uses: actions/configure-pages@v4
     
