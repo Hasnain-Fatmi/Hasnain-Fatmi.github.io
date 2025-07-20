@@ -28,9 +28,9 @@ jobs:
           EMAILJS_TEMPLATE_ID: template_eb997fq
           EMAILJS_PUBLIC_KEY: 6-cLwi-Qj1WTboC_n
         run: |
-          sed -i "s/EMAILJS_SERVICE_ID_PLACEHOLDER/${EMAILJS_SERVICE_ID}/g" script.js
-          sed -i "s/EMAILJS_TEMPLATE_ID_PLACEHOLDER/${EMAILJS_TEMPLATE_ID}/g" script.js
-          sed -i "s/EMAILJS_PUBLIC_KEY_PLACEHOLDER/${EMAILJS_PUBLIC_KEY}/g" script.js
+          perl -pi -e "s/EMAILJS_SERVICE_ID_PLACEHOLDER/$ENV{EMAILJS_SERVICE_ID}/g" script.js
+          perl -pi -e "s/EMAILJS_TEMPLATE_ID_PLACEHOLDER/$ENV{EMAILJS_TEMPLATE_ID}/g" script.js
+          perl -pi -e "s/EMAILJS_PUBLIC_KEY_PLACEHOLDER/$ENV{EMAILJS_PUBLIC_KEY}/g" script.js
 
       - name: Show script.js after sed
         run: |
