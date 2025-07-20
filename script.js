@@ -413,10 +413,9 @@ class ContactManager {
     this.form = document.getElementById("contactForm")
     
     // EmailJS credentials
-    this.serviceId = "EMAILJS_SERVICE_ID_PLACEHOLDER"
-    this.templateId = "EMAILJS_TEMPLATE_ID_PLACEHOLDER"
-    this.publicKey = "EMAILJS_PUBLIC_KEY_PLACEHOLDER"
-    
+    this.serviceId = "service_7hulbtq"
+    this.templateId = "template_eb997fq"
+    this.publicKey = "6-cLwi-Qj1WTboC_n"
     this.init()
   }
 
