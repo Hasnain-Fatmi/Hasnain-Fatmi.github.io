@@ -107,37 +107,37 @@ class SkillsManager {
   constructor() {
     this.skillsData = {
       programming_languages: [
+        { name: "Python" },
         { name: "C++" },
         { name: "C#" },
-        { name: "Python" },
-        { name: "JavaScript" },
-        { name: "SQL" },
+        { name: "Node.js" },
       ],
       frameworks: [
-        { name: "ReactJs" },
-        { name: "AngularJs" },
-        { name: "Django REST Framework" },
+        { name: "React" },
+        { name: "Angular" },
+        { name: "Django" },
         { name: ".NET Core" },
-        { name: "Flutter" },
-      ],
-      data_science: [
-        { name: "RNN" },
-        { name: "CNN" },
-        { name: "Sentence-BERT" },
-        { name: "RAG" },
+        { name: "React Native" },
       ],
       databases: [
         { name: "PostgreSQL" },
-        { name: "SQLite" },
         { name: "MySQL" },
+        { name: "SQLite" },
         { name: "MongoDB" },
         { name: "Firebase" },
       ],
-      tools: [
-        { name: "HTML" },
-        { name: "CSS" },
-        { name: "Linux" },
-        { name: "Git" },
+      data_analytics: [
+        { name: "Snowflake" },
+        { name: "Metabase" },
+        { name: "Airbyte" },
+        { name: "DBT" },
+        { name: "Spark" },
+        { name: "Power BI" },
+      ],
+      cloud_devops: [
+        { name: "Docker" },
+        { name: "GitHub Actions" },
+        { name: "GCP" },
       ],
     }
     this.init()
@@ -165,15 +165,14 @@ class SkillsManager {
     const programmingContainer = document.getElementById("programmingSkills")
     const frameworksContainer = document.getElementById("frameworksSkills")
     const databasesContainer = document.getElementById("databasesSkills")
-    const toolsContainer = document.getElementById("toolsSkills")
+    const dataAnalyticsContainer = document.getElementById("dataAnalyticsSkills")
+    const cloudDevOpsContainer = document.getElementById("cloudDevOpsSkills")
 
     programmingContainer.innerHTML = this.renderSkillsGrid(this.skillsData.programming_languages)
-    frameworksContainer.innerHTML = this.renderSkillsGrid([
-      ...this.skillsData.frameworks,
-      ...this.skillsData.data_science,
-    ])
+    frameworksContainer.innerHTML = this.renderSkillsGrid(this.skillsData.frameworks)
     databasesContainer.innerHTML = this.renderSkillsGrid(this.skillsData.databases)
-    toolsContainer.innerHTML = this.renderSkillsGrid(this.skillsData.tools)
+    dataAnalyticsContainer.innerHTML = this.renderSkillsGrid(this.skillsData.data_analytics)
+    cloudDevOpsContainer.innerHTML = this.renderSkillsGrid(this.skillsData.cloud_devops)
   }
 
   renderSkillsGrid(skills) {
@@ -213,22 +212,73 @@ class SkillsManager {
   }
 }
 
+// Statistics Counter Animation
+class StatisticsManager {
+  constructor() {
+    this.animated = false
+    this.init()
+  }
+
+  init() {
+    window.addEventListener('scroll', () => this.checkPosition())
+    this.checkPosition()
+  }
+
+  checkPosition() {
+    if (this.animated) return
+
+    const statsSection = document.querySelector('.stats-section')
+    if (!statsSection) return
+
+    const rect = statsSection.getBoundingClientRect()
+    const isVisible = rect.top < window.innerHeight && rect.bottom >= 0
+
+    if (isVisible) {
+      this.animateCounters()
+      this.animated = true
+    }
+  }
+
+  animateCounters() {
+    const counters = document.querySelectorAll('.stat-number')
+    counters.forEach(counter => {
+      const target = parseFloat(counter.getAttribute('data-target'))
+      const duration = 2000 // 2 seconds
+      const step = target / (duration / 16) // 60fps
+      let current = 0
+
+      const updateCounter = () => {
+        current += step
+        if (current < target) {
+          counter.textContent = current.toFixed(1)
+          requestAnimationFrame(updateCounter)
+        } else {
+          counter.textContent = target % 1 === 0 ? target : target.toFixed(1)
+        }
+      }
+
+      updateCounter()
+    })
+  }
+}
+
 // Portfolio Management
 class PortfolioManager {
   constructor() {
     this.projects = [
       {
-        title: "SkillSync",
-        description: "RAG, DRF, REACTJs, SENTENCE-BERT. Final Year Project focused on Smart career guidance platform with personalized job recommendations and career planning. Features: Personalized career advice, context-aware job recommendations, real-time job market trends.",
+        title: "SkillSync - FYP",
+        description: "RAG, DRF, REACTJs, SENTENCE-BERT. Final Year Project focused on Smart career guidance platform with personalized job recommendations and career planning with help of NLP and RAG for text generation and semantic analysis. Features: Personalized Career Advice, Context-Aware Job Recommendations, Skill Assessment.",
         image: "https://via.placeholder.com/500x300/4F46E5/FFFFFF?text=SkillSync",
         isDemo: true,
         date: "May 2025"
       },
       {
         title: "DCACNet-CD",
-        description: "CNN, ATTENTION CONDENSER, AUGMENTATION. This project develops a lightweight deep learning model for efficient skin lesion classification using custom CNN. Classifies different types of skin lesions with high efficiency using the DC-AC attention-based architecture.",
+        description: "CNN, ATTENTION CONDENSER, AUGMENTATION, FASTAPI. This project is a deep learning model for efficient skin lesion classification using custom CNN. Achieved 92% classification accuracy through transfer learning and data augmentation techniques.",
         image: "https://via.placeholder.com/500x300/10B981/FFFFFF?text=DCACNet-CD",
         link: "https://github.com/Hasnain-Fatmi/DCACNet-CD",
+        deployedLink: "https://dcac-net-cd.vercel.app",
         date: "Apr 2025"
       },
       {
@@ -236,6 +286,7 @@ class PortfolioManager {
         description: "JPEG COMPRESSION, PYTHON, GUI. A full JPEG image compression and decompression system built from scratch in Python. Compresses grayscale and color images using standard JPEG techniques with adjustable quality and a custom .jpgc file format.",
         image: "https://via.placeholder.com/500x300/F59E0B/FFFFFF?text=JPEGIFY",
         link: "https://github.com/Hasnain-Fatmi/JPEGIFY",
+        deployedLink: "https://jpegify-liard.vercel.app/",
         date: "Apr 2025"
       },
       {
@@ -247,13 +298,13 @@ class PortfolioManager {
       },
       {
         title: "HWCS",
-        description: "KNN, PYTHON, GSCM. Handwriting-based writer identification system. Features: Image processing, feature extraction, model training, Django-based application.",
+        description: "KNN, PYTHON, GLCM, DJANGO. Handwriting-based writer identification system, achieving 96% accuracy through optimized KNN classification. Integrated the trained model into a Django web application, enabling seamless handwriting recognition.",
         image: "https://via.placeholder.com/500x300/8B5CF6/FFFFFF?text=HWCS",
         link: "https://github.com/Hasnain-Fatmi/HWCS",
+        deployedLink: "https://huggingface.co/spaces/bexilix/HWCS",
         date: "Apr 2024"
       }
     ]
-    this.currentSlide = 0
     this.init()
   }
 
@@ -302,110 +353,54 @@ class PortfolioManager {
 
   async loadProjects() {
     const loadingElement = document.getElementById("portfolioLoading")
-    const carouselElement = document.getElementById("portfolioCarousel")
+    const gridElement = document.getElementById("projectsGrid")
 
     // Simulate loading delay
     await new Promise((resolve) => setTimeout(resolve, 1200))
 
     this.renderProjects()
-    this.bindCarouselEvents()
 
     loadingElement.style.display = "none"
-    carouselElement.style.display = "block"
+    gridElement.style.display = "grid"
   }
 
   renderProjects() {
-      const track = document.getElementById("carouselTrack")
-      const dots = document.getElementById("carouselDots")
-  
-      //<img src="${project.image}" alt="${project.title}" class="project-image">
-      // Render slides
-      track.innerHTML = this.projects
+      const grid = document.getElementById("projectsGrid")
+
+      // Render project cards
+      grid.innerHTML = this.projects
         .map(
           (project, index) => `
-              <div class="carousel-slide ${index === 0 ? "active" : ""}">
+              <div class="project-card fade-in" style="animation-delay: ${index * 0.1}s">
                   <div class="project-content">
                       <div class="project-header">
                           <h3 class="project-title">${project.title}</h3>
                           <span class="project-date">${project.date}</span>
                       </div>
                       <p class="project-description">${project.description}</p>
-                      ${project.isDemo 
+                      ${project.isDemo
                           ? `<button class="btn btn-primary btn-animated" onclick="window.portfolioManager.showDemoModal()">
                               <i class="fas fa-play"></i> Watch Demo
                              </button>`
-                          : `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-animated">
-                              <i class="fab fa-github"></i> View on GitHub
-                             </a>`
+                          : `<div class="project-links">
+                              <a href="${project.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-animated">
+                                <i class="fab fa-github"></i> GitHub
+                              </a>
+                              ${project.deployedLink
+                                ? `<a href="${project.deployedLink}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-animated">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                   </a>`
+                                : ''
+                              }
+                             </div>`
                       }
                   </div>
               </div>
           `,
         )
         .join("")
-  
-      // Render dots
-      dots.innerHTML = this.projects
-        .map(
-          (_, index) => `
-              <div class="carousel-dot ${index === 0 ? "active" : ""}" data-slide="${index}"></div>
-          `,
-        )
-        .join("")
   }
 
-  bindCarouselEvents() {
-    const prevBtn = document.getElementById("prevBtn")
-    const nextBtn = document.getElementById("nextBtn")
-    const dots = document.querySelectorAll(".carousel-dot")
-
-    prevBtn.addEventListener("click", () => this.previousSlide())
-    nextBtn.addEventListener("click", () => this.nextSlide())
-
-    dots.forEach((dot) => {
-      dot.addEventListener("click", () => {
-        const slideIndex = Number.parseInt(dot.getAttribute("data-slide"))
-        this.goToSlide(slideIndex)
-      })
-    })
-
-    // Auto-play carousel
-    this.autoPlay = setInterval(() => this.nextSlide(), 5000)
-
-    // Pause auto-play on hover
-    const carousel = document.getElementById("portfolioCarousel")
-    carousel.addEventListener("mouseenter", () => clearInterval(this.autoPlay))
-    carousel.addEventListener("mouseleave", () => {
-      this.autoPlay = setInterval(() => this.nextSlide(), 5000)
-    })
-  }
-
-  goToSlide(index) {
-    this.currentSlide = index
-    const track = document.getElementById("carouselTrack")
-    const dots = document.querySelectorAll(".carousel-dot")
-    const slides = document.querySelectorAll(".carousel-slide")
-
-    track.style.transform = `translateX(-${index * 100}%)`
-
-    dots.forEach((dot, i) => {
-      dot.classList.toggle("active", i === index)
-    })
-
-    slides.forEach((slide, i) => {
-      slide.classList.toggle("active", i === index)
-    })
-  }
-
-  nextSlide() {
-    this.currentSlide = (this.currentSlide + 1) % this.projects.length
-    this.goToSlide(this.currentSlide)
-  }
-
-  previousSlide() {
-    this.currentSlide = (this.currentSlide - 1 + this.projects.length) % this.projects.length
-    this.goToSlide(this.currentSlide)
-  }
 }
 // Contact Form Management
 class ContactManager {
@@ -733,11 +728,9 @@ document.addEventListener("DOMContentLoaded", () => {
   new PageLoaderManager()
   new ThemeManager()
   new NavigationManager()
+  new StatisticsManager()
   new SkillsManager()
-  //new PortfolioManager()
-
   window.portfolioManager = new PortfolioManager()
-
   new ContactManager()
   new ScrollToTopManager()
   new ScrollRevealManager()

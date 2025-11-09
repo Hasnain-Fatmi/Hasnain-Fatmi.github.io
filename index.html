@@ -3,8 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasnain Fatmi | Software Developer</title>
-    <meta name="description" content="Portfolio website of Hasnain Fatmi, Software Developer">
+    <title>Hasnain Fatmi | Software Engineer | Data Engineer</title>
+    <meta name="description" content="Hasnain Fatmi - Software Engineer specializing in Data Engineering, Full-Stack Development, and Analytics. Expertise in Snowflake, Python, React, and building data pipelines.">
+    <meta name="keywords" content="Hasnain Fatmi, Software Engineer, Data Engineer, Full Stack Developer, Python, React, Django, Snowflake, Metabase, Data Analytics, FAST NUCES">
+    <meta name="author" content="Hasnain Fatmi">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Hasnain Fatmi | Software Engineer | Data Engineer">
+    <meta property="og:description" content="Software Engineer specializing in Data Engineering, Full-Stack Development, and Analytics">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hasnain-fatmi.github.io">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hasnain Fatmi | Software Engineer">
+    <meta name="twitter:description" content="Software Engineer specializing in Data Engineering and Full-Stack Development">
     <link rel="stylesheet" href="./packages/CSS/styles.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -36,6 +49,7 @@
             <nav class="nav-menu">
                 <a href="#home" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
+                <a href="#experience" class="nav-link">Experience</a>
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#portfolio" class="nav-link">Portfolio</a>
                 <a href="#contact" class="nav-link">Contact</a>
@@ -63,6 +77,7 @@
         <div class="mobile-menu" id="mobileMenu">
             <a href="#home" class="mobile-link">Home</a>
             <a href="#about" class="mobile-link">About</a>
+            <a href="#experience" class="mobile-link">Experience</a>
             <a href="#skills" class="mobile-link">Skills</a>
             <a href="#portfolio" class="mobile-link">Portfolio</a>
             <a href="#contact" class="mobile-link">Contact</a>
@@ -110,19 +125,30 @@
                     <div class="intro-column">
                         <h1 class="hero-title">
                             <span class="text-reveal">Hello 👋🏼, I'm</span>
-                            <span class="text-reveal delay-1">Hasnain Fatmi</span>
+                            <span class="text-reveal delay-1 gradient-text">Hasnain Fatmi</span>
                         </h1>
-                        <h2 class="hero-subtitle text-reveal delay-2">Software Developer</h2>
-                        <p class="hero-description text-reveal delay-3">
-                            Passionate developer dedicated to innovation and lifelong learning, adept at picking up new languages and crafting efficient software solutions.
+                        <h2 class="hero-subtitle text-reveal delay-2">Software Engineer | Data Engineer</h2>
+                        <p class="hero-tagline text-reveal delay-3">
+                            <i class="fas fa-database"></i> Data Engineering
+                            <i class="fas fa-code" style="margin-left: 1rem;"></i> Full-Stack Development
                         </p>
-                        <div class="hero-actions text-reveal delay-4">
-                            <button class="btn btn-primary btn-animated" onclick="scrollToSection('#contact')">Contact Me</button>
+                        <p class="hero-description text-reveal delay-4">
+                            Software engineer experienced in building data pipelines, transforming source data, and developing full-stack applications. Currently at EaseCloud Technologies, creating practical and efficient systems that turn data into meaningful outcomes.
+                        </p>
+                        <div class="hero-actions text-reveal delay-5">
+                            <div class="cta-buttons">
+                                <a href="./packages/Resume/Resume - Muhammad Hasnain Fatmi.pdf" download class="btn btn-primary btn-animated">
+                                    <i class="fas fa-download"></i> Download Resume
+                                </a>
+                                <button class="btn btn-outline btn-animated" onclick="scrollToSection('#contact')">
+                                    <i class="fas fa-envelope"></i> Get In Touch
+                                </button>
+                            </div>
                             <div class="mobile-social">
-                                <a href="https://linkedin.com/in/hasnain-fatmi" target="_blank" rel="noopener noreferrer" class="btn btn-outline hover-float">
+                                <a href="https://linkedin.com/in/hasnain-fatmi" target="_blank" rel="noopener noreferrer" class="btn btn-icon hover-float" aria-label="LinkedIn">
                                     <i class="fab fa-linkedin"></i>
                                 </a>
-                                <a href="https://github.com/Hasnain-Fatmi" target="_blank" rel="noopener noreferrer" class="btn btn-outline hover-float">
+                                <a href="https://github.com/Hasnain-Fatmi" target="_blank" rel="noopener noreferrer" class="btn btn-icon hover-float" aria-label="GitHub">
                                     <i class="fab fa-github"></i>
                                 </a>
                             </div>
@@ -135,6 +161,50 @@
                     <button class="scroll-btn" onclick="scrollToSection('#about')" aria-label="Scroll Down">
                         <i class="fas fa-arrow-down"></i>
                     </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item fade-in">
+                        <div class="stat-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-target="40">0</h3>
+                            <p class="stat-label">% Cost Reduction</p>
+                        </div>
+                    </div>
+                    <div class="stat-item fade-in delay-1">
+                        <div class="stat-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-target="3">0</h3>
+                            <p class="stat-label">Major Projects</p>
+                        </div>
+                    </div>
+                    <div class="stat-item fade-in delay-2">
+                        <div class="stat-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-target="15">0</h3>
+                            <p class="stat-label">Technologies</p>
+                        </div>
+                    </div>
+                    <div class="stat-item fade-in delay-3">
+                        <div class="stat-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-target="2">0</h3>
+                            <p class="stat-label">Professional Roles</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -159,7 +229,7 @@
                     <!-- About Content -->
                     <div class="about-content">
                         <p class="about-text slide-up">
-                            I'm a passionate developer 👨‍💻 with a never-ending curiosity for learning new languages and building software. I interned at Techlogix and enjoy contributing to real-world projects. I'm driven by innovation and lifelong learning.
+                            I'm a Software Engineer 👨‍💻 experienced in building data pipelines, optimize data warehouses, and create analytics solutions. My work focuses on transforming data into meaningful business outcomes. I'm passionate about building efficient systems and continuously learning new technologies.
                         </p>
                         <a href="./packages/Resume/Resume - Muhammad Hasnain Fatmi.pdf" download class="btn btn-primary btn-animated download-btn slide-up delay-1">
                             <i class="fas fa-download"></i> Download Resume
@@ -178,6 +248,70 @@
                             <div class="education-item slide-up delay-5">
                                 <h4>Matric — Govt. High School, Narowal</h4>
                                 <span class="education-year">2016—2018</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="experience scroll-reveal">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title text-reveal">Experience</h2>
+                    <p class="section-subtitle text-reveal delay-1">My Professional Journey</p>
+                </div>
+
+                <div class="experience-timeline">
+                    <div class="timeline-item slide-up">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3>Associate Software Engineer</h3>
+                                <span class="timeline-company">
+                                    <i class="fas fa-building"></i> EaseCloud Technologies
+                                </span>
+                            </div>
+                            <span class="timeline-date">
+                                <i class="fas fa-calendar"></i> Aug 2025 - Present
+                            </span>
+                            <ul class="timeline-description">
+                                <li>Built and maintained data streams to support data extraction, transformation, and analytics</li>
+                                <li>Designed and optimized Snowflake data warehouse, implementing clustering and partitioning strategies that improved query performance and reduced compute costs by 40%</li>
+                                <li>Created interactive Metabase dashboards tracking key business metrics, reducing ad-hoc reporting requests and enabling executives to identify revenue optimization opportunities</li>
+                                <li>Implemented several utility tools using Node.js for developer productivity and workflow automation</li>
+                            </ul>
+                            <div class="timeline-tags">
+                                <span class="tag">Data Engineering</span>
+                                <span class="tag">Snowflake</span>
+                                <span class="tag">Metabase</span>
+                                <span class="tag">Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item slide-up delay-1">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3>Software Development Intern</h3>
+                                <span class="timeline-company">
+                                    <i class="fas fa-building"></i> Techlogix Pakistan
+                                </span>
+                            </div>
+                            <span class="timeline-date">
+                                <i class="fas fa-calendar"></i> Jul 2024 - Aug 2024
+                            </span>
+                            <ul class="timeline-description">
+                                <li>Developed backend features in .NET Core and frontend interfaces in AngularJS</li>
+                                <li>Collaborated with the team to deliver project milestones on time</li>
+                                <li>Gained hands-on experience with enterprise-level software development</li>
+                            </ul>
+                            <div class="timeline-tags">
+                                <span class="tag">.NET Core</span>
+                                <span class="tag">AngularJS</span>
+                                <span class="tag">Teamwork</span>
                             </div>
                         </div>
                     </div>
@@ -230,12 +364,21 @@
                             </div>
                         </div>
                         <div class="accordion-item fade-in delay-3">
-                            <button class="accordion-header" data-target="tools">
-                                <span>Tools & Technologies</span>
+                            <button class="accordion-header" data-target="dataAnalytics">
+                                <span>Data Analytics</span>
                                 <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div class="accordion-content" id="tools">
-                                <div class="skills-grid" id="toolsSkills"></div>
+                            <div class="accordion-content" id="dataAnalytics">
+                                <div class="skills-grid" id="dataAnalyticsSkills"></div>
+                            </div>
+                        </div>
+                        <div class="accordion-item fade-in delay-4">
+                            <button class="accordion-header" data-target="cloudDevOps">
+                                <span>Cloud & DevOps</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content" id="cloudDevOps">
+                                <div class="skills-grid" id="cloudDevOpsSkills"></div>
                             </div>
                         </div>
                     </div>
@@ -248,25 +391,20 @@
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title text-reveal">Portfolio</h2>
-                    <p class="section-subtitle text-reveal delay-1">My Projects</p>
+                    <p class="section-subtitle text-reveal delay-1">Featured Projects</p>
                 </div>
 
                 <div class="portfolio-container">
-                    <div class="loading-skeleton" id="portfolioLoading">
+                    <div class="loading-skeleton" id="portfolioLoading" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
                         <div class="skeleton-card"></div>
                     </div>
 
-                    <div class="carousel" id="portfolioCarousel" style="display: none;">
-                        <div class="carousel-container">
-                            <div class="carousel-track" id="carouselTrack"></div>
-                        </div>
-                        <button class="carousel-btn prev" id="prevBtn" aria-label="Previous project">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="carousel-btn next" id="nextBtn" aria-label="Next project">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <div class="carousel-dots" id="carouselDots"></div>
+                    <div class="projects-grid" id="projectsGrid" style="display: none;">
+                        <!-- Projects will be dynamically inserted here -->
                     </div>
                 </div>
             </div>
