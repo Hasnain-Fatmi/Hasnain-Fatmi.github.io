@@ -700,7 +700,7 @@ body {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   max-width: 1000px;
   margin: 0 auto;
@@ -709,8 +709,9 @@ body {
 .stat-item {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.75rem 1.5rem;
   background-color: var(--bg-primary);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -725,38 +726,41 @@ body {
 }
 
 .stat-icon {
-  width: 4rem;
-  height: 4rem;
+  width: 3.5rem;
+  height: 3.5rem;
   background: linear-gradient(135deg, var(--primary), #8b5cf6);
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
 .stat-content {
   flex: 1;
+  text-align: left;
 }
 
 .stat-number {
-  font-size: 2.25rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--primary);
   margin: 0;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .stat-label {
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin: 0.5rem 0 0 0;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  line-height: 1.2;
 }
 
 /* About Section */
@@ -1940,22 +1944,33 @@ body {
 
   /* Stats Section */
   .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
   .stat-item {
-    padding: 1.5rem;
+    padding: 1.25rem 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .stat-content {
+    text-align: center;
   }
 
   .stat-icon {
-    width: 3.5rem;
-    height: 3.5rem;
-    font-size: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
   }
 
   .stat-number {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
   }
 
   /* Experience Section */
@@ -2057,6 +2072,14 @@ body {
 
 }
 
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* Stats Section - 3 columns on tablets */
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 480px) {
   .hero-title {
     font-size: 1.75rem;
@@ -2082,5 +2105,14 @@ body {
 
   .carousel-btn {
     display: none;
+  }
+
+  /* Stats Section - Stack vertically on very small screens */
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-item {
+    padding: 1.5rem 1rem;
   }
 }

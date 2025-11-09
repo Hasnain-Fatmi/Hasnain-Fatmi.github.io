@@ -275,7 +275,7 @@ class PortfolioManager {
       },
       {
         title: "DCACNet-CD",
-        description: "CNN, ATTENTION CONDENSER, AUGMENTATION, FASTAPI. This project is a deep learning model for efficient skin lesion classification using custom CNN. Achieved 92% classification accuracy through transfer learning and data augmentation techniques.",
+        description: "CNN, ATTENTION CONDENSER, AUGMENTATION, FASTAPI. This project is a deep learning model for efficient skin lesion classification using custom CNN. Achieved ~91% classification accuracy through transfer learning and data augmentation techniques.",
         image: "https://via.placeholder.com/500x300/10B981/FFFFFF?text=DCACNet-CD",
         link: "https://github.com/Hasnain-Fatmi/DCACNet-CD",
         deployedLink: "https://dcac-net-cd.vercel.app",
@@ -728,7 +728,6 @@ document.addEventListener("DOMContentLoaded", () => {
   new PageLoaderManager()
   new ThemeManager()
   new NavigationManager()
-  new StatisticsManager()
   new SkillsManager()
   window.portfolioManager = new PortfolioManager()
   new ContactManager()
