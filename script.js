@@ -268,14 +268,18 @@ class PortfolioManager {
     this.projects = [
       {
         title: "SkillSync - FYP",
-        description: "RAG, DRF, REACTJs, SENTENCE-BERT. Final Year Project focused on Smart career guidance platform with personalized job recommendations and career planning with help of NLP and RAG for text generation and semantic analysis. Features: Personalized Career Advice, Context-Aware Job Recommendations, Skill Assessment.",
+        impact: "Smart career guidance with NLP-powered personalized job recommendations",
+        description: "AI-powered career guidance platform using RAG and BERT for personalized job recommendations and semantic career planning with context-aware skill assessments.",
+        techStack: ["RAG", "BERT", "NLP", "Semantic Search", "Django REST", "React"],
         image: "https://via.placeholder.com/500x300/4F46E5/FFFFFF?text=SkillSync",
         isDemo: true,
         date: "May 2025"
       },
       {
         title: "DCACNet-CD",
-        description: "CNN, ATTENTION CONDENSER, AUGMENTATION, FASTAPI. This project is a deep learning model for efficient skin lesion classification using custom CNN. Achieved ~91% classification accuracy through transfer learning and data augmentation techniques.",
+        impact: "91% accurate skin lesion classification using custom CNN architecture",
+        description: "Custom CNN architecture for skin lesion classification achieving 91% accuracy through transfer learning and data augmentation with FastAPI deployment.",
+        techStack: ["CNN", "Transfer Learning", "Data Augmentation", "FastAPI", "Python"],
         image: "https://via.placeholder.com/500x300/10B981/FFFFFF?text=DCACNet-CD",
         link: "https://github.com/Hasnain-Fatmi/DCACNet-CD",
         deployedLink: "https://dcac-net-cd.vercel.app",
@@ -283,7 +287,9 @@ class PortfolioManager {
       },
       {
         title: "JPEGIFY",
-        description: "JPEG COMPRESSION, PYTHON, GUI. A full JPEG image compression and decompression system built from scratch in Python. Compresses grayscale and color images using standard JPEG techniques with adjustable quality and a custom .jpgc file format.",
+        impact: "Full JPEG compression engine built from scratch with custom file format",
+        description: "Complete JPEG compression system built from scratch supporting grayscale and color images with adjustable quality and custom .jpgc format using DSP algorithms.",
+        techStack: ["Python", "JPEG Compression", "DSP", "Algorithms", "GUI"],
         image: "https://via.placeholder.com/500x300/F59E0B/FFFFFF?text=JPEGIFY",
         link: "https://github.com/Hasnain-Fatmi/JPEGIFY",
         deployedLink: "https://jpegify-liard.vercel.app/",
@@ -291,14 +297,18 @@ class PortfolioManager {
       },
       {
         title: "JANWAR",
-        description: "ATLAS MONGODB, EXPRESS, REACT, NODEJS. E-commerce platform for pet adoption and sales. Features: Post ads, buy/sell pets, purchase accessories, custom transactions.",
+        impact: "Full-stack e-commerce platform for pet adoption and accessories marketplace",
+        description: "Full-stack MERN e-commerce platform for pet adoption with features for posting ads, buying/selling pets, and purchasing accessories with custom transactions.",
+        techStack: ["React", "Node.js", "Express", "MongoDB"],
         image: "https://via.placeholder.com/500x300/EF4444/FFFFFF?text=JANWAR",
         link: "https://github.com/Hasnain-Fatmi/janwar.com",
         date: "May 2024"
       },
       {
         title: "HWCS",
-        description: "KNN, PYTHON, GLCM, DJANGO. Handwriting-based writer identification system, achieving 96% accuracy through optimized KNN classification. Integrated the trained model into a Django web application, enabling seamless handwriting recognition.",
+        impact: "96% accurate handwriting-based writer identification with Django integration",
+        description: "Writer identification system achieving 96% accuracy using optimized KNN and GLCM feature extraction, deployed as Django web application for seamless recognition.",
+        techStack: ["KNN", "Machine Learning", "GLCM", "Django", "Python"],
         image: "https://via.placeholder.com/500x300/8B5CF6/FFFFFF?text=HWCS",
         link: "https://github.com/Hasnain-Fatmi/HWCS",
         deployedLink: "https://huggingface.co/spaces/bexilix/HWCS",
@@ -378,6 +388,9 @@ class PortfolioManager {
                           <span class="project-date">${project.date}</span>
                       </div>
                       <p class="project-description">${project.description}</p>
+                      <div class="project-tech-stack">
+                          ${project.techStack.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
+                      </div>
                       ${project.isDemo
                           ? `<button class="btn btn-primary btn-animated" onclick="window.portfolioManager.showDemoModal()">
                               <i class="fas fa-play"></i> Watch Demo
