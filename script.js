@@ -829,10 +829,10 @@ class ChatbotManager {
       // API endpoint - change this to your deployed Vercel URL
       // For local development: 'http://localhost:3000/api/chat-stream'
       // For production: 'https://your-api.vercel.app/api/chat-stream'
-      apiUrl: "https://portfolio-chatbot-ochre.vercel.app/api/chat-stream",
+      apiUrl: "https://portfolio-chatbot-ochre.vercel.app/api/chat",
 
       // Use streaming for better UX
-      useStreaming: true,
+      useStreaming: false,
 
       // Suggested questions
       suggestedQuestions: [
@@ -1043,7 +1043,6 @@ class ChatbotManager {
             if (parsed.type === "chunk") {
               fullResponse += parsed.content
               messageContent.textContent = fullResponse
-              this.scrollToBottom()
             } else if (parsed.type === "action") {
               detectedAction = parsed.action
             } else if (parsed.type === "error") {
@@ -1132,23 +1131,48 @@ class ChatbotManager {
     messageDiv.appendChild(messageContent)
 
     this.messages.appendChild(messageDiv)
-    this.scrollToBottom()
+
+    // Only auto-scroll for user messages, let user scroll for bot responses
+    if (type === "user") {
+      this.scrollToBottom()
+    }
   }
 
   formatMessage(text) {
-    // Simple markdown-like formatting
+    // Enhanced markdown-like formatting
     let formatted = text
-      // Bold
+      // Bold text
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      // Bullet points
-      .replace(/^- (.+)$/gm, "<li>$1</li>")
-      // Line breaks
-      .replace(/\n/g, "<br>")
-
-    // Wrap list items in ul
-    if (formatted.includes("<li>")) {
-      formatted = formatted.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>")
-    }
+      // Convert double line breaks to paragraphs
+      .split('\n\n')
+      .map(para => para.trim())
+      .filter(para => para.length > 0)
+      .map(para => {
+        // Check if paragraph contains list items
+        if (para.match(/^[\*\-] /m)) {
+          // Convert bullet points to list items
+          const items = para
+            .split('\n')
+            .filter(line => line.trim())
+            .map(line => line.replace(/^[\*\-] (.+)$/, '<li>$1</li>'))
+            .join('')
+          return `<ul>${items}</ul>`
+        }
+        // Check if paragraph contains numbered lists
+        else if (para.match(/^\d+\. /m)) {
+          const items = para
+            .split('\n')
+            .filter(line => line.trim())
+            .map(line => line.replace(/^\d+\. (.+)$/, '<li>$1</li>'))
+            .join('')
+          return `<ol>${items}</ol>`
+        }
+        // Regular paragraph
+        else {
+          return `<p>${para.replace(/\n/g, '<br>')}</p>`
+        }
+      })
+      .join('')
 
     return formatted
   }
@@ -1174,7 +1198,6 @@ class ChatbotManager {
     typingDiv.appendChild(indicator)
 
     this.messages.appendChild(typingDiv)
-    this.scrollToBottom()
 
     return typingDiv.id
   }
