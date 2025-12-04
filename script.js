@@ -839,7 +839,7 @@ class ChatbotManager {
         "What programming languages does Hasnain know?",
         "Tell me about Hasnain's projects",
         "Who are you and how were you made?",
-        "Does Hasnain have cloud/AWS experience?"
+        "Does Hasnain have cloud/GCP experience?"
       ]
     }
 
