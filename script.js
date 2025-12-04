@@ -811,3 +811,221 @@ const throttledScroll = throttle(() => {
 }, 16) // ~60fps
 
 window.addEventListener("scroll", throttledScroll)
+
+// Chatbot Manager
+class ChatbotManager {
+  constructor() {
+    this.container = document.getElementById("chatbotContainer")
+    this.toggle = document.getElementById("chatbotToggle")
+    this.closeBtn = document.getElementById("chatbotClose")
+    this.messages = document.getElementById("chatbotMessages")
+    this.input = document.getElementById("chatbotInput")
+    this.sendBtn = document.getElementById("chatbotSend")
+    this.conversationHistory = []
+
+    // API endpoint - change this to your deployed Vercel URL
+    this.apiUrl = "https://portfolio-chatbot-ochre.vercel.app/api/chat"
+
+    this.init()
+  }
+
+  init() {
+    this.bindEvents()
+  }
+
+  bindEvents() {
+    this.toggle.addEventListener("click", () => this.toggleChat())
+    this.closeBtn.addEventListener("click", () => this.closeChat())
+    this.sendBtn.addEventListener("click", () => this.sendMessage())
+    this.input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault()
+        this.sendMessage()
+      }
+    })
+  }
+
+  toggleChat() {
+    this.container.classList.toggle("active")
+    if (this.container.classList.contains("active")) {
+      this.input.focus()
+    }
+  }
+
+  closeChat() {
+    this.container.classList.remove("active")
+  }
+
+  async sendMessage() {
+    const message = this.input.value.trim()
+    if (!message || this.sendBtn.disabled) return
+
+    // Add user message to UI
+    this.addMessage(message, "user")
+    this.input.value = ""
+
+    // Disable input while processing
+    this.sendBtn.disabled = true
+    this.input.disabled = true
+
+    // Show typing indicator
+    const typingId = this.showTypingIndicator()
+
+    try {
+      // Call API
+      const response = await fetch(this.apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: message,
+          conversationHistory: this.conversationHistory
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error(`API returned ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      // Remove typing indicator
+      this.removeTypingIndicator(typingId)
+
+      // Add bot response
+      this.addMessage(data.reply, "bot")
+
+      // Update conversation history
+      this.conversationHistory.push(
+        { role: "user", content: message },
+        { role: "assistant", content: data.reply }
+      )
+
+      // Keep only last 6 messages (3 exchanges)
+      if (this.conversationHistory.length > 6) {
+        this.conversationHistory = this.conversationHistory.slice(-6)
+      }
+
+      // Handle actions if any
+      if (data.action) {
+        this.handleAction(data.action)
+      }
+    } catch (error) {
+      console.error("Chatbot error:", error)
+      this.removeTypingIndicator(typingId)
+      this.addMessage(
+        "Sorry, I'm having trouble connecting right now. Please try again in a moment or use the contact form below.",
+        "bot"
+      )
+    } finally {
+      // Re-enable input
+      this.sendBtn.disabled = false
+      this.input.disabled = false
+      this.input.focus()
+    }
+  }
+
+  addMessage(content, type) {
+    const messageDiv = document.createElement("div")
+    messageDiv.className = `chatbot-message ${type}-message`
+
+    const avatar = document.createElement("div")
+    avatar.className = "message-avatar"
+    avatar.innerHTML = type === "user" ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>'
+
+    const messageContent = document.createElement("div")
+    messageContent.className = "message-content"
+
+    // Convert markdown-style formatting to HTML
+    const formattedContent = this.formatMessage(content)
+    messageContent.innerHTML = formattedContent
+
+    messageDiv.appendChild(avatar)
+    messageDiv.appendChild(messageContent)
+
+    this.messages.appendChild(messageDiv)
+    this.scrollToBottom()
+  }
+
+  formatMessage(text) {
+    // Simple markdown-like formatting
+    let formatted = text
+      // Bold
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      // Bullet points
+      .replace(/^- (.+)$/gm, "<li>$1</li>")
+      // Line breaks
+      .replace(/\n/g, "<br>")
+
+    // Wrap list items in ul
+    if (formatted.includes("<li>")) {
+      formatted = formatted.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>")
+    }
+
+    return formatted
+  }
+
+  showTypingIndicator() {
+    const typingDiv = document.createElement("div")
+    typingDiv.className = "chatbot-message bot-message"
+    typingDiv.id = `typing-${Date.now()}`
+
+    const avatar = document.createElement("div")
+    avatar.className = "message-avatar"
+    avatar.innerHTML = '<i class="fas fa-robot"></i>'
+
+    const indicator = document.createElement("div")
+    indicator.className = "message-content typing-indicator"
+    indicator.innerHTML = `
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    `
+
+    typingDiv.appendChild(avatar)
+    typingDiv.appendChild(indicator)
+
+    this.messages.appendChild(typingDiv)
+    this.scrollToBottom()
+
+    return typingDiv.id
+  }
+
+  removeTypingIndicator(id) {
+    const element = document.getElementById(id)
+    if (element) {
+      element.remove()
+    }
+  }
+
+  scrollToBottom() {
+    this.messages.scrollTop = this.messages.scrollHeight
+  }
+
+  handleAction(action) {
+    // Handle navigation actions from the bot
+    setTimeout(() => {
+      switch (action) {
+        case "scroll_projects":
+          scrollToSection("#portfolio")
+          break
+        case "scroll_contact":
+          scrollToSection("#contact")
+          break
+        case "download_cv":
+          // Trigger CV download
+          const link = document.createElement("a")
+          link.href = "./packages/Resume/Resume - Muhammad Hasnain Fatmi.pdf"
+          link.download = "Resume - Muhammad Hasnain Fatmi.pdf"
+          link.click()
+          break
+      }
+    }, 500)
+  }
+}
+
+// Initialize Chatbot
+document.addEventListener("DOMContentLoaded", () => {
+  new ChatbotManager()
+})

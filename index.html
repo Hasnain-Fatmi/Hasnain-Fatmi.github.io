@@ -522,7 +522,47 @@
     <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-    
+
+    <!-- AI Chatbot -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <span>Ask me anything!</span>
+            </div>
+            <button class="chatbot-close" id="chatbotClose" aria-label="Close chatbot">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="chatbot-message bot-message">
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    Hi! I'm Hasnain's AI assistant. Ask me about my experience, skills, projects, or anything else!
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-input-container">
+            <input
+                type="text"
+                class="chatbot-input"
+                id="chatbotInput"
+                placeholder="Ask about my experience, skills, projects..."
+                maxlength="500"
+            />
+            <button class="chatbot-send" id="chatbotSend" aria-label="Send message">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" id="chatbotToggle" aria-label="Toggle chatbot">
+        <i class="fas fa-comments"></i>
+    </button>
+
     <script src="script.js"></script>
 </body>
 </html>
