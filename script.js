@@ -822,9 +822,26 @@ class ChatbotManager {
     this.input = document.getElementById("chatbotInput")
     this.sendBtn = document.getElementById("chatbotSend")
     this.conversationHistory = []
+    this.isFirstOpen = true
 
-    // API endpoint - change this to your deployed Vercel URL
-    this.apiUrl = "https://portfolio-chatbot-ochre.vercel.app/api/chat"
+    // Configuration
+    this.config = {
+      // API endpoint - change this to your deployed Vercel URL
+      // For local development: 'http://localhost:3000/api/chat-stream'
+      // For production: 'https://your-api.vercel.app/api/chat-stream'
+      apiUrl: "https://portfolio-chatbot-ochre.vercel.app/api/chat-stream",
+
+      // Use streaming for better UX
+      useStreaming: true,
+
+      // Suggested questions
+      suggestedQuestions: [
+        "What programming languages does Hasnain know?",
+        "Tell me about Hasnain's projects",
+        "Who are you and how were you made?",
+        "Does Hasnain have cloud/AWS experience?"
+      ]
+    }
 
     this.init()
   }
@@ -849,11 +866,75 @@ class ChatbotManager {
     this.container.classList.toggle("active")
     if (this.container.classList.contains("active")) {
       this.input.focus()
+
+      // Add suggested questions on first open
+      if (this.isFirstOpen) {
+        setTimeout(() => {
+          this.addSuggestedQuestions()
+          this.isFirstOpen = false
+        }, 500)
+      }
     }
   }
 
   closeChat() {
     this.container.classList.remove("active")
+  }
+
+  addSuggestedQuestions() {
+    const suggestionsDiv = document.createElement("div")
+    suggestionsDiv.className = "suggested-questions"
+    suggestionsDiv.style.cssText = `
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+    `
+
+    const label = document.createElement("div")
+    label.textContent = "Try asking:"
+    label.style.cssText = `
+      width: 100%;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    `
+    suggestionsDiv.appendChild(label)
+
+    this.config.suggestedQuestions.forEach(question => {
+      const chip = document.createElement("button")
+      chip.className = "suggestion-chip"
+      chip.textContent = question
+      chip.style.cssText = `
+        background: var(--bg-secondary);
+        border: 1px solid var(--primary);
+        color: var(--primary);
+        padding: 0.4rem 0.8rem;
+        border-radius: 1rem;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      `
+      chip.onmouseover = () => {
+        chip.style.background = "var(--primary)"
+        chip.style.color = "white"
+      }
+      chip.onmouseout = () => {
+        chip.style.background = "var(--bg-secondary)"
+        chip.style.color = "var(--primary)"
+      }
+      chip.onclick = () => {
+        this.input.value = question
+        this.sendMessage()
+        suggestionsDiv.remove()
+      }
+      suggestionsDiv.appendChild(chip)
+    })
+
+    this.messages.appendChild(suggestionsDiv)
+    this.scrollToBottom()
   }
 
   async sendMessage() {
@@ -872,57 +953,163 @@ class ChatbotManager {
     const typingId = this.showTypingIndicator()
 
     try {
-      // Call API
-      const response = await fetch(this.apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: message,
-          conversationHistory: this.conversationHistory
-        })
-      })
-
-      if (!response.ok) {
-        throw new Error(`API returned ${response.status}`)
-      }
-
-      const data = await response.json()
-
-      // Remove typing indicator
-      this.removeTypingIndicator(typingId)
-
-      // Add bot response
-      this.addMessage(data.reply, "bot")
-
-      // Update conversation history
-      this.conversationHistory.push(
-        { role: "user", content: message },
-        { role: "assistant", content: data.reply }
-      )
-
-      // Keep only last 6 messages (3 exchanges)
-      if (this.conversationHistory.length > 6) {
-        this.conversationHistory = this.conversationHistory.slice(-6)
-      }
-
-      // Handle actions if any
-      if (data.action) {
-        this.handleAction(data.action)
+      if (this.config.useStreaming) {
+        await this.sendMessageStreaming(message, typingId)
+      } else {
+        await this.sendMessageNonStreaming(message, typingId)
       }
     } catch (error) {
       console.error("Chatbot error:", error)
       this.removeTypingIndicator(typingId)
-      this.addMessage(
-        "Sorry, I'm having trouble connecting right now. Please try again in a moment or use the contact form below.",
-        "bot"
-      )
+
+      // Better error handling
+      let errorMessage = "Sorry, I'm having trouble connecting right now. Please try again in a moment or use the contact form below."
+
+      if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+        errorMessage = "Unable to connect to the server. Please check your internet connection and try again."
+      } else if (error.message.includes("429")) {
+        errorMessage = "Too many requests. Please wait a moment and try again."
+      }
+
+      this.addMessage(errorMessage, "bot")
     } finally {
       // Re-enable input
       this.sendBtn.disabled = false
       this.input.disabled = false
       this.input.focus()
+    }
+  }
+
+  async sendMessageStreaming(message, typingId) {
+    const response = await fetch(this.config.apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message,
+        conversationHistory: this.conversationHistory.slice(-5)
+      })
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.error || `Server error: ${response.status}`)
+    }
+
+    // Remove typing indicator
+    this.removeTypingIndicator(typingId)
+
+    // Create message element for streaming
+    const messageId = `msg-${Date.now()}`
+    const messageDiv = document.createElement("div")
+    messageDiv.id = messageId
+    messageDiv.className = "chatbot-message bot-message"
+
+    const avatar = document.createElement("div")
+    avatar.className = "message-avatar"
+    avatar.innerHTML = '<i class="fas fa-robot"></i>'
+
+    const messageContent = document.createElement("div")
+    messageContent.className = "message-content"
+
+    messageDiv.appendChild(avatar)
+    messageDiv.appendChild(messageContent)
+    this.messages.appendChild(messageDiv)
+
+    let fullResponse = ""
+    let detectedAction = null
+
+    // Read the stream
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      const chunk = decoder.decode(value)
+      const lines = chunk.split("\n")
+
+      for (const line of lines) {
+        if (line.startsWith("data: ")) {
+          const data = line.slice(6)
+
+          if (data === "[DONE]") break
+
+          try {
+            const parsed = JSON.parse(data)
+
+            if (parsed.type === "chunk") {
+              fullResponse += parsed.content
+              messageContent.textContent = fullResponse
+              this.scrollToBottom()
+            } else if (parsed.type === "action") {
+              detectedAction = parsed.action
+            } else if (parsed.type === "error") {
+              throw new Error(parsed.error)
+            }
+          } catch (e) {
+            if (!e.message.includes("Unexpected")) throw e
+          }
+        }
+      }
+    }
+
+    // Update conversation history
+    this.conversationHistory.push(
+      { role: "user", content: message },
+      { role: "assistant", content: fullResponse }
+    )
+
+    if (this.conversationHistory.length > 10) {
+      this.conversationHistory = this.conversationHistory.slice(-10)
+    }
+
+    // Handle actions
+    if (detectedAction) {
+      this.handleAction(detectedAction)
+    }
+  }
+
+  async sendMessageNonStreaming(message, typingId) {
+    const response = await fetch(this.config.apiUrl.replace("chat-stream", "chat"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message,
+        conversationHistory: this.conversationHistory.slice(-5)
+      })
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.error || `Server error: ${response.status}`)
+    }
+
+    const data = await response.json()
+
+    // Remove typing indicator
+    this.removeTypingIndicator(typingId)
+
+    // Add bot response
+    this.addMessage(data.reply, "bot")
+
+    // Update conversation history
+    this.conversationHistory.push(
+      { role: "user", content: message },
+      { role: "assistant", content: data.reply }
+    )
+
+    if (this.conversationHistory.length > 10) {
+      this.conversationHistory = this.conversationHistory.slice(-10)
+    }
+
+    // Handle actions
+    if (data.action) {
+      this.handleAction(data.action)
     }
   }
 
