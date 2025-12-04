@@ -837,7 +837,7 @@ class ChatbotManager {
       // Suggested questions
       suggestedQuestions: [
         "What programming languages does Hasnain know?",
-        "Tell me about Hasnain's projects",
+        "Tell me about Hasnain",
         "Who are you and how were you made?",
         "Does Hasnain have cloud/GCP experience?"
       ]
