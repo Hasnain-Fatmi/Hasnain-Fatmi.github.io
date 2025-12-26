@@ -276,6 +276,16 @@ class PortfolioManager {
         date: "May 2025"
       },
       {
+        title: "VAMS",
+        impact: "Detects fight sequence frame by frame with intensity detection",
+        description: "A violence detection system made with help of YOLO, and deployed using streamlit on huggingspace for demo purposes",
+        techStack: ["YOLO", "computer vision", "streamlit", "Python"],
+        image: "https://via.placeholder.com/500x300/8B5CF6/FFFFFF?text=VAMS",
+        link: "https://github.com/Hasnain-Fatmi/VAMS",
+        deployedLink: "https://huggingface.co/spaces/bexilix/VAMS",
+        date: "Dec 2025"
+      },
+      {
         title: "DCACNet-CD",
         impact: "91% accurate skin lesion classification using custom CNN architecture",
         description: "Custom CNN architecture for skin lesion classification achieving 91% accuracy through transfer learning and data augmentation with FastAPI deployment.",
