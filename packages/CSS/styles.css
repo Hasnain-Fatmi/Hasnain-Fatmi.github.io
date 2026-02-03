@@ -1438,12 +1438,24 @@ body {
 .cal-embed-container {
   max-width: 1000px;
   margin: 0 auto;
-  overflow: hidden;
+  overflow: visible;
+}
+
+/* Cal.com embed sizing */
+.cal-embed-container > div {
+  overflow: visible;
+  min-height: 650px;
+}
+
+.cal-embed-container iframe {
+  width: 100% !important;
+  overflow: visible !important;
 }
 
 @media (max-width: 768px) {
-  .cal-embed-container > div {
-    height: 600px !important;
+  .cal-embed-container > div,
+  .cal-embed-container iframe {
+    min-height: 950px !important;
   }
 }
 
