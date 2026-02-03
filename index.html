@@ -133,16 +133,16 @@
                             <i class="fas fa-code" style="margin-left: 1rem;"></i> Full-Stack Development
                         </p>
                         <p class="hero-description text-reveal delay-4">
-                            Software engineer experienced in building data pipelines, transforming source data, and developing full-stack applications. Currently at EaseCloud Technologies, creating practical and efficient systems that turn data into meaningful outcomes.
+                            Software engineer experienced in building data pipelines, optimizing data warehouses, and developing full-stack applications. I create practical and efficient systems that turn data into meaningful business outcomes.
                         </p>
                         <div class="hero-actions text-reveal delay-5">
                             <div class="cta-buttons">
-                                <a href="./packages/Resume/Resume - Muhammad Hasnain Fatmi.pdf" download class="btn btn-primary btn-animated">
+                                <button class="btn btn-primary btn-animated" onclick="scrollToSection('#contact')">
+                                    <i class="fas fa-rocket"></i> Hire Me
+                                </button>
+                                <a href="./packages/Resume/Resume - Muhammad Hasnain Fatmi.pdf" download class="btn btn-outline btn-animated">
                                     <i class="fas fa-download"></i> Download Resume
                                 </a>
-                                <button class="btn btn-outline btn-animated" onclick="scrollToSection('#contact')">
-                                    <i class="fas fa-envelope"></i> Get In Touch
-                                </button>
                             </div>
                             <div class="mobile-social">
                                 <a href="https://linkedin.com/in/hasnain-fatmi" target="_blank" rel="noopener noreferrer" class="btn btn-icon hover-float" aria-label="LinkedIn">
@@ -230,7 +230,7 @@
                                 </span>
                             </div>
                             <span class="timeline-date">
-                                <i class="fas fa-calendar"></i> Aug 2025 - Present
+                                <i class="fas fa-calendar"></i> Aug 2025 - Feb 2026
                             </span>
                             <ul class="timeline-description">
                                 <li>Built and maintained data streams to support data extraction, transformation, and analytics</li>
@@ -423,6 +423,10 @@
 
                     <!-- Contact Form -->
                     <form class="contact-form slide-up" id="contactForm">
+                        <!-- Honeypot field - hidden from humans, catches bots -->
+                        <div class="form-group" style="position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden;" aria-hidden="true">
+                            <input type="text" name="website" tabindex="-1" autocomplete="off">
+                        </div>
                         <div class="form-group">
                             <input type="text" name="name" placeholder="Your Name" required class="input-animated">
                             <span class="input-focus-effect"></span>
@@ -452,7 +456,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-wave">
-            <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 1440 320">1
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                 <path fill="var(--bg-secondary)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
             </svg>
         </div>
@@ -495,11 +499,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <video 
-                    class="demo-video" 
+                <video
+                    class="demo-video"
                     controls
-                    preload="metadata"
-                    poster="./packages/images/skillsync-thumbnail.png">
+                    preload="metadata">
                     <source src="./packages/Video_demo/FYP-Demo-Final.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -523,7 +526,7 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- AI Chatbot -->
+    <!-- AI Chatbot (disabled for now)
     <div class="chatbot-container" id="chatbotContainer">
         <div class="chatbot-header">
             <div class="chatbot-title">
@@ -559,10 +562,10 @@
         </div>
     </div>
 
-    <!-- Chatbot Toggle Button -->
     <button class="chatbot-toggle" id="chatbotToggle" aria-label="Toggle chatbot">
         <i class="fas fa-comments"></i>
     </button>
+    -->
 
     <script src="script.js"></script>
 </body>

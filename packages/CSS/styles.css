@@ -406,7 +406,6 @@ body {
 
 .btn-outline:hover {
   background-color: var(--bg-muted);
-  transform: translateY(-3px);
 }
 
 .btn-full {

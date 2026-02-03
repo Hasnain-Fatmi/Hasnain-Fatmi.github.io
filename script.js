@@ -429,8 +429,12 @@ class PortfolioManager {
 class ContactManager {
   constructor() {
     this.form = document.getElementById("contactForm")
-    
+
     // EmailJS credentials
+    // SECURITY NOTE: These are client-side credentials. To protect against abuse:
+    // 1. Go to EmailJS Dashboard > Email Services > Your Service > Settings
+    // 2. Enable "Restrict to specific domains" and add: hasnainfatmi.com
+    // 3. Enable reCAPTCHA for additional protection
     this.serviceId = "service_7hulbtq"
     this.templateId = "template_eb997fq"
     this.publicKey = "6-cLwi-Qj1WTboC_n"
@@ -452,53 +456,68 @@ class ContactManager {
 
     const submitBtn = this.form.querySelector('button[type="submit"]')
 
+    // Check honeypot field - if filled, it's a bot
+    const honeypot = this.form.querySelector('input[name="website"]')
+    if (honeypot && honeypot.value) {
+      // Silently reject bot submissions but show fake success
+      console.log('Bot detected via honeypot')
+      this.showSuccessMessage()
+      this.form.reset()
+      return
+    }
+
     // Show loading state
     submitBtn.classList.add("loading")
     submitBtn.disabled = true
 
-    // Get form data
-    const formData = new FormData(this.form)
-    // Get current timestamp
-    const now = new Date()
-    const timeString = now.toLocaleString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      timeZoneName: 'short'
-    })
-    // Prepare template parameters
-    const templateParams = {
-      from_name: formData.get('name'),
-      from_email: formData.get('email'),
-      subject: formData.get('subject'),
-      message: formData.get('message'),
-      to_name: 'Hasnain Fatmi',
-      reply_to: formData.get('email'),
-      time: timeString // Add timestamp parameter
+    try {
+      // Get form data
+      const formData = new FormData(this.form)
+      // Get current timestamp
+      const now = new Date()
+      const timeString = now.toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
+      })
+      // Prepare template parameters
+      const templateParams = {
+        from_name: formData.get('name'),
+        from_email: formData.get('email'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+        to_name: 'Hasnain Fatmi',
+        reply_to: formData.get('email'),
+        time: timeString
+      }
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        this.serviceId,
+        this.templateId,
+        templateParams
+      )
+
+      console.log('Email sent successfully:', result)
+
+      // Show success message
+      this.showSuccessMessage()
+
+      // Reset form
+      this.form.reset()
+    } catch (error) {
+      console.error('Failed to send email:', error)
+      this.showErrorMessage()
+    } finally {
+      // Reset button state
+      submitBtn.classList.remove("loading")
+      submitBtn.disabled = false
     }
-
-    // Send email using EmailJS
-    const result = await emailjs.send(
-      this.serviceId,
-      this.templateId,
-      templateParams
-    )
-
-    console.log('Email sent successfully:', result)
-    
-    // Show success message
-    this.showSuccessMessage()
-    
-    // Reset form
-    this.form.reset()
-
-    // Reset button state
-    submitBtn.classList.remove("loading")
-    submitBtn.disabled = false
   }
 
   showSuccessMessage() {
@@ -720,12 +739,10 @@ class PageLoaderManager {
   }
 
   init() {
-    // Hide loader after page load
+    // Hide loader immediately when page is fully loaded
     window.addEventListener("load", () => {
-      setTimeout(() => {
-        this.loader.style.opacity = "0"
-        this.loader.style.visibility = "hidden"
-      }, 1000)
+      this.loader.style.opacity = "0"
+      this.loader.style.visibility = "hidden"
     })
   }
 }
@@ -822,430 +839,432 @@ const throttledScroll = throttle(() => {
 
 window.addEventListener("scroll", throttledScroll)
 
-// Chatbot Manager
-class ChatbotManager {
-  constructor() {
-    this.container = document.getElementById("chatbotContainer")
-    this.toggle = document.getElementById("chatbotToggle")
-    this.closeBtn = document.getElementById("chatbotClose")
-    this.messages = document.getElementById("chatbotMessages")
-    this.input = document.getElementById("chatbotInput")
-    this.sendBtn = document.getElementById("chatbotSend")
-    this.conversationHistory = []
-    this.isFirstOpen = true
-
-    // Configuration
-    this.config = {
-      // API endpoint - change this to your deployed Vercel URL
-      // For local development: 'http://localhost:3000/api/chat-stream'
-      // For production: 'https://your-api.vercel.app/api/chat-stream'
-      apiUrl: "https://portfolio-chatbot-ochre.vercel.app/api/chat",
-
-      // Use streaming for better UX
-      useStreaming: false,
-
-      // Suggested questions
-      suggestedQuestions: [
-        "What programming languages does Hasnain know?",
-        "Tell me about Hasnain",
-        "Who are you and how were you made?",
-        "Does Hasnain have cloud/GCP experience?"
-      ]
-    }
-
-    this.init()
-  }
-
-  init() {
-    this.bindEvents()
-  }
-
-  bindEvents() {
-    this.toggle.addEventListener("click", () => this.toggleChat())
-    this.closeBtn.addEventListener("click", () => this.closeChat())
-    this.sendBtn.addEventListener("click", () => this.sendMessage())
-    this.input.addEventListener("keypress", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault()
-        this.sendMessage()
-      }
-    })
-  }
-
-  toggleChat() {
-    this.container.classList.toggle("active")
-    if (this.container.classList.contains("active")) {
-      this.input.focus()
-
-      // Add suggested questions on first open
-      if (this.isFirstOpen) {
-        setTimeout(() => {
-          this.addSuggestedQuestions()
-          this.isFirstOpen = false
-        }, 500)
-      }
-    }
-  }
-
-  closeChat() {
-    this.container.classList.remove("active")
-  }
-
-  addSuggestedQuestions() {
-    const suggestionsDiv = document.createElement("div")
-    suggestionsDiv.className = "suggested-questions"
-    suggestionsDiv.style.cssText = `
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-    `
-
-    const label = document.createElement("div")
-    label.textContent = "Try asking:"
-    label.style.cssText = `
-      width: 100%;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.25rem;
-      font-weight: 500;
-    `
-    suggestionsDiv.appendChild(label)
-
-    this.config.suggestedQuestions.forEach(question => {
-      const chip = document.createElement("button")
-      chip.className = "suggestion-chip"
-      chip.textContent = question
-      chip.style.cssText = `
-        background: var(--bg-secondary);
-        border: 1px solid var(--primary);
-        color: var(--primary);
-        padding: 0.4rem 0.8rem;
-        border-radius: 1rem;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.2s;
-      `
-      chip.onmouseover = () => {
-        chip.style.background = "var(--primary)"
-        chip.style.color = "white"
-      }
-      chip.onmouseout = () => {
-        chip.style.background = "var(--bg-secondary)"
-        chip.style.color = "var(--primary)"
-      }
-      chip.onclick = () => {
-        this.input.value = question
-        this.sendMessage()
-        suggestionsDiv.remove()
-      }
-      suggestionsDiv.appendChild(chip)
-    })
-
-    this.messages.appendChild(suggestionsDiv)
-    this.scrollToBottom()
-  }
-
-  async sendMessage() {
-    const message = this.input.value.trim()
-    if (!message || this.sendBtn.disabled) return
-
-    // Add user message to UI
-    this.addMessage(message, "user")
-    this.input.value = ""
-
-    // Disable input while processing
-    this.sendBtn.disabled = true
-    this.input.disabled = true
-
-    // Show typing indicator
-    const typingId = this.showTypingIndicator()
-
-    try {
-      if (this.config.useStreaming) {
-        await this.sendMessageStreaming(message, typingId)
-      } else {
-        await this.sendMessageNonStreaming(message, typingId)
-      }
-    } catch (error) {
-      console.error("Chatbot error:", error)
-      this.removeTypingIndicator(typingId)
-
-      // Better error handling
-      let errorMessage = "Sorry, I'm having trouble connecting right now. Please try again in a moment or use the contact form below."
-
-      if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
-        errorMessage = "Unable to connect to the server. Please check your internet connection and try again."
-      } else if (error.message.includes("429")) {
-        errorMessage = "Too many requests. Please wait a moment and try again."
-      }
-
-      this.addMessage(errorMessage, "bot")
-    } finally {
-      // Re-enable input
-      this.sendBtn.disabled = false
-      this.input.disabled = false
-      this.input.focus()
-    }
-  }
-
-  async sendMessageStreaming(message, typingId) {
-    const response = await fetch(this.config.apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: message,
-        conversationHistory: this.conversationHistory.slice(-5)
-      })
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      throw new Error(errorData.error || `Server error: ${response.status}`)
-    }
-
-    // Remove typing indicator
-    this.removeTypingIndicator(typingId)
-
-    // Create message element for streaming
-    const messageId = `msg-${Date.now()}`
-    const messageDiv = document.createElement("div")
-    messageDiv.id = messageId
-    messageDiv.className = "chatbot-message bot-message"
-
-    const avatar = document.createElement("div")
-    avatar.className = "message-avatar"
-    avatar.innerHTML = '<i class="fas fa-robot"></i>'
-
-    const messageContent = document.createElement("div")
-    messageContent.className = "message-content"
-
-    messageDiv.appendChild(avatar)
-    messageDiv.appendChild(messageContent)
-    this.messages.appendChild(messageDiv)
-
-    let fullResponse = ""
-    let detectedAction = null
-
-    // Read the stream
-    const reader = response.body.getReader()
-    const decoder = new TextDecoder()
-
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-
-      const chunk = decoder.decode(value)
-      const lines = chunk.split("\n")
-
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          const data = line.slice(6)
-
-          if (data === "[DONE]") break
-
-          try {
-            const parsed = JSON.parse(data)
-
-            if (parsed.type === "chunk") {
-              fullResponse += parsed.content
-              messageContent.textContent = fullResponse
-            } else if (parsed.type === "action") {
-              detectedAction = parsed.action
-            } else if (parsed.type === "error") {
-              throw new Error(parsed.error)
-            }
-          } catch (e) {
-            if (!e.message.includes("Unexpected")) throw e
-          }
-        }
-      }
-    }
-
-    // Update conversation history
-    this.conversationHistory.push(
-      { role: "user", content: message },
-      { role: "assistant", content: fullResponse }
-    )
-
-    if (this.conversationHistory.length > 10) {
-      this.conversationHistory = this.conversationHistory.slice(-10)
-    }
-
-    // Handle actions
-    if (detectedAction) {
-      this.handleAction(detectedAction)
-    }
-  }
-
-  async sendMessageNonStreaming(message, typingId) {
-    const response = await fetch(this.config.apiUrl.replace("chat-stream", "chat"), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: message,
-        conversationHistory: this.conversationHistory.slice(-5)
-      })
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      throw new Error(errorData.error || `Server error: ${response.status}`)
-    }
-
-    const data = await response.json()
-
-    // Remove typing indicator
-    this.removeTypingIndicator(typingId)
-
-    // Add bot response
-    this.addMessage(data.reply, "bot")
-
-    // Update conversation history
-    this.conversationHistory.push(
-      { role: "user", content: message },
-      { role: "assistant", content: data.reply }
-    )
-
-    if (this.conversationHistory.length > 10) {
-      this.conversationHistory = this.conversationHistory.slice(-10)
-    }
-
-    // Handle actions
-    if (data.action) {
-      this.handleAction(data.action)
-    }
-  }
-
-  addMessage(content, type) {
-    const messageDiv = document.createElement("div")
-    messageDiv.className = `chatbot-message ${type}-message`
-
-    const avatar = document.createElement("div")
-    avatar.className = "message-avatar"
-    avatar.innerHTML = type === "user" ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>'
-
-    const messageContent = document.createElement("div")
-    messageContent.className = "message-content"
-
-    // Convert markdown-style formatting to HTML
-    const formattedContent = this.formatMessage(content)
-    messageContent.innerHTML = formattedContent
-
-    messageDiv.appendChild(avatar)
-    messageDiv.appendChild(messageContent)
-
-    this.messages.appendChild(messageDiv)
-
-    // Only auto-scroll for user messages, let user scroll for bot responses
-    if (type === "user") {
-      this.scrollToBottom()
-    }
-  }
-
-  formatMessage(text) {
-    // Enhanced markdown-like formatting
-    let formatted = text
-      // Bold text
-      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      // Convert double line breaks to paragraphs
-      .split('\n\n')
-      .map(para => para.trim())
-      .filter(para => para.length > 0)
-      .map(para => {
-        // Check if paragraph contains list items
-        if (para.match(/^[\*\-] /m)) {
-          // Convert bullet points to list items
-          const items = para
-            .split('\n')
-            .filter(line => line.trim())
-            .map(line => line.replace(/^[\*\-] (.+)$/, '<li>$1</li>'))
-            .join('')
-          return `<ul>${items}</ul>`
-        }
-        // Check if paragraph contains numbered lists
-        else if (para.match(/^\d+\. /m)) {
-          const items = para
-            .split('\n')
-            .filter(line => line.trim())
-            .map(line => line.replace(/^\d+\. (.+)$/, '<li>$1</li>'))
-            .join('')
-          return `<ol>${items}</ol>`
-        }
-        // Regular paragraph
-        else {
-          return `<p>${para.replace(/\n/g, '<br>')}</p>`
-        }
-      })
-      .join('')
-
-    return formatted
-  }
-
-  showTypingIndicator() {
-    const typingDiv = document.createElement("div")
-    typingDiv.className = "chatbot-message bot-message"
-    typingDiv.id = `typing-${Date.now()}`
-
-    const avatar = document.createElement("div")
-    avatar.className = "message-avatar"
-    avatar.innerHTML = '<i class="fas fa-robot"></i>'
-
-    const indicator = document.createElement("div")
-    indicator.className = "message-content typing-indicator"
-    indicator.innerHTML = `
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-    `
-
-    typingDiv.appendChild(avatar)
-    typingDiv.appendChild(indicator)
-
-    this.messages.appendChild(typingDiv)
-
-    return typingDiv.id
-  }
-
-  removeTypingIndicator(id) {
-    const element = document.getElementById(id)
-    if (element) {
-      element.remove()
-    }
-  }
-
-  scrollToBottom() {
-    this.messages.scrollTop = this.messages.scrollHeight
-  }
-
-  handleAction(action) {
-    // Handle navigation actions from the bot
-    setTimeout(() => {
-      switch (action) {
-        case "scroll_projects":
-          scrollToSection("#portfolio")
-          break
-        case "scroll_contact":
-          scrollToSection("#contact")
-          break
-        case "download_cv":
-          // Trigger CV download
-          const link = document.createElement("a")
-          link.href = "./packages/Resume/Resume - Muhammad Hasnain Fatmi.pdf"
-          link.download = "Resume - Muhammad Hasnain Fatmi.pdf"
-          link.click()
-          break
-      }
-    }, 500)
-  }
-}
-
-// Initialize Chatbot
-document.addEventListener("DOMContentLoaded", () => {
-  new ChatbotManager()
-})
+// // Chatbot disabled for now
+// // Chatbot Manager
+// class ChatbotManager {
+//   constructor() {
+//     this.container = document.getElementById("chatbotContainer")
+//     this.toggle = document.getElementById("chatbotToggle")
+//     this.closeBtn = document.getElementById("chatbotClose")
+//     this.messages = document.getElementById("chatbotMessages")
+//     this.input = document.getElementById("chatbotInput")
+//     this.sendBtn = document.getElementById("chatbotSend")
+//     this.conversationHistory = []
+//     this.isFirstOpen = true
+
+//     // Configuration
+//     this.config = {
+//       // API endpoint - change this to your deployed Vercel URL
+//       // For local development: 'http://localhost:3000/api/chat-stream'
+//       // For production: 'https://your-api.vercel.app/api/chat-stream'
+//       apiUrl: "https://portfolio-chatbot-ochre.vercel.app/api/chat",
+
+//       // Use streaming for better UX
+//       useStreaming: false,
+
+//       // Suggested questions
+//       suggestedQuestions: [
+//         "What programming languages does Hasnain know?",
+//         "Tell me about Hasnain",
+//         "Who are you and how were you made?",
+//         "Does Hasnain have cloud/GCP experience?"
+//       ]
+//     }
+
+//     this.init()
+//   }
+
+//   init() {
+//     this.bindEvents()
+//   }
+
+//   bindEvents() {
+//     this.toggle.addEventListener("click", () => this.toggleChat())
+//     this.closeBtn.addEventListener("click", () => this.closeChat())
+//     this.sendBtn.addEventListener("click", () => this.sendMessage())
+//     this.input.addEventListener("keypress", (e) => {
+//       if (e.key === "Enter" && !e.shiftKey) {
+//         e.preventDefault()
+//         this.sendMessage()
+//       }
+//     })
+//   }
+
+//   toggleChat() {
+//     this.container.classList.toggle("active")
+//     if (this.container.classList.contains("active")) {
+//       this.input.focus()
+
+//       // Add suggested questions on first open
+//       if (this.isFirstOpen) {
+//         setTimeout(() => {
+//           this.addSuggestedQuestions()
+//           this.isFirstOpen = false
+//         }, 500)
+//       }
+//     }
+//   }
+
+//   closeChat() {
+//     this.container.classList.remove("active")
+//   }
+
+//   addSuggestedQuestions() {
+//     const suggestionsDiv = document.createElement("div")
+//     suggestionsDiv.className = "suggested-questions"
+//     suggestionsDiv.style.cssText = `
+//       display: flex;
+//       flex-wrap: wrap;
+//       gap: 0.5rem;
+//       padding: 0.5rem;
+//       margin-bottom: 0.5rem;
+//     `
+
+//     const label = document.createElement("div")
+//     label.textContent = "Try asking:"
+//     label.style.cssText = `
+//       width: 100%;
+//       font-size: 0.85rem;
+//       color: var(--text-secondary);
+//       margin-bottom: 0.25rem;
+//       font-weight: 500;
+//     `
+//     suggestionsDiv.appendChild(label)
+
+//     this.config.suggestedQuestions.forEach(question => {
+//       const chip = document.createElement("button")
+//       chip.className = "suggestion-chip"
+//       chip.textContent = question
+//       chip.style.cssText = `
+//         background: var(--bg-secondary);
+//         border: 1px solid var(--primary);
+//         color: var(--primary);
+//         padding: 0.4rem 0.8rem;
+//         border-radius: 1rem;
+//         font-size: 0.85rem;
+//         cursor: pointer;
+//         transition: all 0.2s;
+//       `
+//       chip.onmouseover = () => {
+//         chip.style.background = "var(--primary)"
+//         chip.style.color = "white"
+//       }
+//       chip.onmouseout = () => {
+//         chip.style.background = "var(--bg-secondary)"
+//         chip.style.color = "var(--primary)"
+//       }
+//       chip.onclick = () => {
+//         this.input.value = question
+//         this.sendMessage()
+//         suggestionsDiv.remove()
+//       }
+//       suggestionsDiv.appendChild(chip)
+//     })
+
+//     this.messages.appendChild(suggestionsDiv)
+//     this.scrollToBottom()
+//   }
+
+//   async sendMessage() {
+//     const message = this.input.value.trim()
+//     if (!message || this.sendBtn.disabled) return
+
+//     // Add user message to UI
+//     this.addMessage(message, "user")
+//     this.input.value = ""
+
+//     // Disable input while processing
+//     this.sendBtn.disabled = true
+//     this.input.disabled = true
+
+//     // Show typing indicator
+//     const typingId = this.showTypingIndicator()
+
+//     try {
+//       if (this.config.useStreaming) {
+//         await this.sendMessageStreaming(message, typingId)
+//       } else {
+//         await this.sendMessageNonStreaming(message, typingId)
+//       }
+//     } catch (error) {
+//       console.error("Chatbot error:", error)
+//       this.removeTypingIndicator(typingId)
+
+//       // Better error handling
+//       let errorMessage = "Sorry, I'm having trouble connecting right now. Please try again in a moment or use the contact form below."
+
+//       if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+//         errorMessage = "Unable to connect to the server. Please check your internet connection and try again."
+//       } else if (error.message.includes("429")) {
+//         errorMessage = "Too many requests. Please wait a moment and try again."
+//       }
+
+//       this.addMessage(errorMessage, "bot")
+//     } finally {
+//       // Re-enable input
+//       this.sendBtn.disabled = false
+//       this.input.disabled = false
+//       this.input.focus()
+//     }
+//   }
+
+//   async sendMessageStreaming(message, typingId) {
+//     const response = await fetch(this.config.apiUrl, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json"
+//       },
+//       body: JSON.stringify({
+//         message: message,
+//         conversationHistory: this.conversationHistory.slice(-5)
+//       })
+//     })
+
+//     if (!response.ok) {
+//       const errorData = await response.json().catch(() => ({}))
+//       throw new Error(errorData.error || `Server error: ${response.status}`)
+//     }
+
+//     // Remove typing indicator
+//     this.removeTypingIndicator(typingId)
+
+//     // Create message element for streaming
+//     const messageId = `msg-${Date.now()}`
+//     const messageDiv = document.createElement("div")
+//     messageDiv.id = messageId
+//     messageDiv.className = "chatbot-message bot-message"
+
+//     const avatar = document.createElement("div")
+//     avatar.className = "message-avatar"
+//     avatar.innerHTML = '<i class="fas fa-robot"></i>'
+
+//     const messageContent = document.createElement("div")
+//     messageContent.className = "message-content"
+
+//     messageDiv.appendChild(avatar)
+//     messageDiv.appendChild(messageContent)
+//     this.messages.appendChild(messageDiv)
+
+//     let fullResponse = ""
+//     let detectedAction = null
+
+//     // Read the stream
+//     const reader = response.body.getReader()
+//     const decoder = new TextDecoder()
+
+//     while (true) {
+//       const { done, value } = await reader.read()
+//       if (done) break
+
+//       const chunk = decoder.decode(value)
+//       const lines = chunk.split("\n")
+
+//       for (const line of lines) {
+//         if (line.startsWith("data: ")) {
+//           const data = line.slice(6)
+
+//           if (data === "[DONE]") break
+
+//           try {
+//             const parsed = JSON.parse(data)
+
+//             if (parsed.type === "chunk") {
+//               fullResponse += parsed.content
+//               messageContent.textContent = fullResponse
+//             } else if (parsed.type === "action") {
+//               detectedAction = parsed.action
+//             } else if (parsed.type === "error") {
+//               throw new Error(parsed.error)
+//             }
+//           } catch (e) {
+//             if (!e.message.includes("Unexpected")) throw e
+//           }
+//         }
+//       }
+//     }
+
+//     // Update conversation history
+//     this.conversationHistory.push(
+//       { role: "user", content: message },
+//       { role: "assistant", content: fullResponse }
+//     )
+
+//     if (this.conversationHistory.length > 10) {
+//       this.conversationHistory = this.conversationHistory.slice(-10)
+//     }
+
+//     // Handle actions
+//     if (detectedAction) {
+//       this.handleAction(detectedAction)
+//     }
+//   }
+
+//   async sendMessageNonStreaming(message, typingId) {
+//     const response = await fetch(this.config.apiUrl.replace("chat-stream", "chat"), {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json"
+//       },
+//       body: JSON.stringify({
+//         message: message,
+//         conversationHistory: this.conversationHistory.slice(-5)
+//       })
+//     })
+
+//     if (!response.ok) {
+//       const errorData = await response.json().catch(() => ({}))
+//       throw new Error(errorData.error || `Server error: ${response.status}`)
+//     }
+
+//     const data = await response.json()
+
+//     // Remove typing indicator
+//     this.removeTypingIndicator(typingId)
+
+//     // Add bot response
+//     this.addMessage(data.reply, "bot")
+
+//     // Update conversation history
+//     this.conversationHistory.push(
+//       { role: "user", content: message },
+//       { role: "assistant", content: data.reply }
+//     )
+
+//     if (this.conversationHistory.length > 10) {
+//       this.conversationHistory = this.conversationHistory.slice(-10)
+//     }
+
+//     // Handle actions
+//     if (data.action) {
+//       this.handleAction(data.action)
+//     }
+//   }
+
+//   addMessage(content, type) {
+//     const messageDiv = document.createElement("div")
+//     messageDiv.className = `chatbot-message ${type}-message`
+
+//     const avatar = document.createElement("div")
+//     avatar.className = "message-avatar"
+//     avatar.innerHTML = type === "user" ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>'
+
+//     const messageContent = document.createElement("div")
+//     messageContent.className = "message-content"
+
+//     // Convert markdown-style formatting to HTML
+//     const formattedContent = this.formatMessage(content)
+//     messageContent.innerHTML = formattedContent
+
+//     messageDiv.appendChild(avatar)
+//     messageDiv.appendChild(messageContent)
+
+//     this.messages.appendChild(messageDiv)
+
+//     // Only auto-scroll for user messages, let user scroll for bot responses
+//     if (type === "user") {
+//       this.scrollToBottom()
+//     }
+//   }
+
+//   formatMessage(text) {
+//     // Enhanced markdown-like formatting
+//     let formatted = text
+//       // Bold text
+//       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+//       // Convert double line breaks to paragraphs
+//       .split('\n\n')
+//       .map(para => para.trim())
+//       .filter(para => para.length > 0)
+//       .map(para => {
+//         // Check if paragraph contains list items
+//         if (para.match(/^[\*\-] /m)) {
+//           // Convert bullet points to list items
+//           const items = para
+//             .split('\n')
+//             .filter(line => line.trim())
+//             .map(line => line.replace(/^[\*\-] (.+)$/, '<li>$1</li>'))
+//             .join('')
+//           return `<ul>${items}</ul>`
+//         }
+//         // Check if paragraph contains numbered lists
+//         else if (para.match(/^\d+\. /m)) {
+//           const items = para
+//             .split('\n')
+//             .filter(line => line.trim())
+//             .map(line => line.replace(/^\d+\. (.+)$/, '<li>$1</li>'))
+//             .join('')
+//           return `<ol>${items}</ol>`
+//         }
+//         // Regular paragraph
+//         else {
+//           return `<p>${para.replace(/\n/g, '<br>')}</p>`
+//         }
+//       })
+//       .join('')
+
+//     return formatted
+//   }
+
+//   showTypingIndicator() {
+//     const typingDiv = document.createElement("div")
+//     typingDiv.className = "chatbot-message bot-message"
+//     typingDiv.id = `typing-${Date.now()}`
+
+//     const avatar = document.createElement("div")
+//     avatar.className = "message-avatar"
+//     avatar.innerHTML = '<i class="fas fa-robot"></i>'
+
+//     const indicator = document.createElement("div")
+//     indicator.className = "message-content typing-indicator"
+//     indicator.innerHTML = `
+//       <div class="typing-dot"></div>
+//       <div class="typing-dot"></div>
+//       <div class="typing-dot"></div>
+//     `
+
+//     typingDiv.appendChild(avatar)
+//     typingDiv.appendChild(indicator)
+
+//     this.messages.appendChild(typingDiv)
+
+//     return typingDiv.id
+//   }
+
+//   removeTypingIndicator(id) {
+//     const element = document.getElementById(id)
+//     if (element) {
+//       element.remove()
+//     }
+//   }
+
+//   scrollToBottom() {
+//     this.messages.scrollTop = this.messages.scrollHeight
+//   }
+
+//   handleAction(action) {
+//     // Handle navigation actions from the bot
+//     setTimeout(() => {
+//       switch (action) {
+//         case "scroll_projects":
+//           scrollToSection("#portfolio")
+//           break
+//         case "scroll_contact":
+//           scrollToSection("#contact")
+//           break
+//         case "download_cv":
+//           // Trigger CV download
+//           const link = document.createElement("a")
+//           link.href = "./packages/Resume/Resume - Muhammad Hasnain Fatmi.pdf"
+//           link.download = "Resume - Muhammad Hasnain Fatmi.pdf"
+//           link.click()
+//           break
+//       }
+//     }, 500)
+//   }
+// }
+
+// // Initialize Chatbot
+// document.addEventListener("DOMContentLoaded", () => {
+//   new ChatbotManager()
+// })
+
