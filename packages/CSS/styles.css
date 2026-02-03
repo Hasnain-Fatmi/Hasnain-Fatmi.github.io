@@ -1429,6 +1429,24 @@ body {
   min-height: 120px;
 }
 
+/* Book a Call Section */
+.book-call {
+  padding: 5rem 0;
+  background-color: var(--bg-secondary);
+}
+
+.cal-embed-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .cal-embed-container > div {
+    height: 600px !important;
+  }
+}
+
 /* Footer */
 .footer {
   position: relative;

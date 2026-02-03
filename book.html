@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Call | Hasnain Fatmi</title>
+    <meta name="description" content="Schedule a free consultation with Hasnain Fatmi - Software Engineer & Data Engineer">
+    <meta name="author" content="Hasnain Fatmi">
+
+    <link rel="stylesheet" href="./packages/CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Book page specific styles */
+        .book-page-content {
+            min-height: calc(100vh - 200px);
+            padding: 6rem 0 4rem;
+        }
+
+        .cal-embed-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            min-height: 650px;
+        }
+
+        .cal-embed-container > div {
+            min-height: 650px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="animated-text" style="text-decoration: none; color: inherit;">Hasnain Fatmi</a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="nav-menu">
+                <a href="index.html#home" class="nav-link">Home</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html#skills" class="nav-link">Skills</a>
+                <a href="index.html#portfolio" class="nav-link">Portfolio</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+                <a href="book.html" class="nav-link active">Book a Call</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
+                </button>
+            </nav>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav">
+                <button class="theme-toggle mobile-theme" id="mobileThemeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html#home" class="mobile-link">Home</a>
+            <a href="index.html#about" class="mobile-link">About</a>
+            <a href="index.html#experience" class="mobile-link">Experience</a>
+            <a href="index.html#skills" class="mobile-link">Skills</a>
+            <a href="index.html#portfolio" class="mobile-link">Portfolio</a>
+            <a href="index.html#contact" class="mobile-link">Contact</a>
+            <a href="book.html" class="mobile-link">Book a Call</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="book-page-content">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Book a Call</h2>
+                    <p class="section-subtitle">Schedule a free 30-minute consultation to discuss your project</p>
+                </div>
+
+                <div class="cal-embed-container">
+                    <div id="my-cal-inline-30min"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="var(--bg-secondary)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Hasnain Fatmi</h3>
+                    <p>Software Engineer</p>
+                </div>
+
+                <div class="footer-links">
+                    <a href="index.html#about" class="footer-link hover-underline">About</a>
+                    <a href="index.html#portfolio" class="footer-link hover-underline">Portfolio</a>
+                    <a href="index.html#contact" class="footer-link hover-underline">Contact</a>
+                </div>
+
+                <div class="footer-social">
+                    <a href="https://linkedin.com/in/hasnain-fatmi" target="_blank" rel="noopener noreferrer" class="social-link hover-float">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/Hasnain-Fatmi" target="_blank" rel="noopener noreferrer" class="social-link hover-float">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> Hasnain Fatmi. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "30min", {origin:"https://app.cal.com"});
+
+        // Get current theme
+        const currentTheme = localStorage.getItem("theme") || "dark";
+        document.documentElement.setAttribute("data-theme", currentTheme);
+
+        Cal.ns["30min"]("inline", {
+            elementOrSelector: "#my-cal-inline-30min",
+            config: {
+                "layout": "month_view",
+                "theme": currentTheme
+            },
+            calLink: "hasnain-fatmi/30min",
+        });
+
+        Cal.ns["30min"]("ui", {
+            "theme": currentTheme,
+            "cssVarsPerTheme": {
+                "dark": {"cal-brand": "#6366f1"},
+                "light": {"cal-brand": "#4f46e5"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
+
+        // Set current year
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        // Theme toggle functionality
+        const themeToggles = document.querySelectorAll(".theme-toggle");
+        themeToggles.forEach((toggle) => {
+            toggle.addEventListener("click", () => {
+                const current = document.documentElement.getAttribute("data-theme");
+                const newTheme = current === "light" ? "dark" : "light";
+                document.documentElement.setAttribute("data-theme", newTheme);
+                localStorage.setItem("theme", newTheme);
+                // Reload to update Cal.com theme
+                location.reload();
+            });
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById("hamburger");
+        const mobileMenu = document.getElementById("mobileMenu");
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            mobileMenu.classList.toggle("active");
+        });
+
+        // Navbar scroll effect
+        window.addEventListener("scroll", () => {
+            const navbar = document.getElementById("navbar");
+            if (window.scrollY > 10) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        });
+    </script>
+</body>
+</html>

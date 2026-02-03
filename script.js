@@ -62,10 +62,13 @@ class NavigationManager {
     const navLinks = document.querySelectorAll(".nav-link, .mobile-link, .footer-link")
     navLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
-        e.preventDefault()
         const targetId = link.getAttribute("href")
-        this.scrollToSection(targetId)
-        this.closeMobileMenu()
+        // Only handle hash links, let regular links navigate normally
+        if (targetId.startsWith("#")) {
+          e.preventDefault()
+          this.scrollToSection(targetId)
+          this.closeMobileMenu()
+        }
       })
     })
 
